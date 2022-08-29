@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2022.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;html&gt;&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;PyMC Example&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="iso-8859-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.2.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.4.2.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.2.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.2.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-2.4.2.min.js"&gt;&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/javascript"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Bokeh.set_log_level("info");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script defer src="https://pyscript.net/alpha/pyscript.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;py-env&gt;</p>
+<p class="p1">- bokeh</p>
+<p class="p1">- micropymc</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/py-env&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;py-title&gt;PyMC in the browser using PyScript&lt;/py-title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;(c) 2022, &lt;a href="https://twitter.com/twiecki"&gt;Thomas Wiecki&lt;/a&gt;&lt;/p&gt;&lt;br&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">This webapp runs the following &lt;a href src="https://pymc.io"&gt;PyMC&lt;/a&gt; model in your browser:</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;pre&gt;&lt;code class="python"&gt;import pymc as pm</p>
+<p class="p1">with pm.Model() as model:</p>
+<p class="p1"><span class="Apple-converted-space">    </span>p = pm.Beta("p", alpha=1, beta=1)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>obs = pm.Binomial("obs", p=p, n=n,<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                      </span>observed=k)</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>idata = pm.sample()&lt;/code&gt;&lt;/pre&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">This is a simple beta-binomial or coin-flip model.</p>
+<p class="p1">Enter how many coin-flips you did (N) and how many times it came up heads (K).<span class="Apple-converted-space"> </span></p>
+<p class="p1">Then press "Sample!" to run the NUTS sampler.<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1">For a full explanation, see &lt;a href src="https://www.pymc-labs.io/blog-posts/pymc-in-browser/"&gt;this blog post&lt;/a&gt;.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;py-box widths="1/7;2/7;1/7;2/7;1/7"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;py-title&gt;n=&lt;/py-title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;py-inputbox id="input_box_n"&gt;10&lt;/py-inputbox&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;py-title&gt;k=&lt;/py-title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">         </span>&lt;py-inputbox id="input_box_k"&gt;5&lt;/py-inputbox&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;py-button id="sample-btn" label="Sample!"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">from pyodide import create_proxy</p>
+<p class="p2"><br></p>
+<p class="p1">@create_proxy</p>
+<p class="p1">def on_click(evt):</p>
+<p class="p1"><span class="Apple-converted-space">    </span>k = Element('input_box_k').element.value</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if k == "":</p>
+<p class="p1"><span class="Apple-converted-space">        </span>k = 5</p>
+<p class="p1"><span class="Apple-converted-space">    </span>n = Element('input_box_n').element.value</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if n == "":</p>
+<p class="p1"><span class="Apple-converted-space">        </span>n = 10</p>
+<p class="p1"><span class="Apple-converted-space">    </span>run_model(n=n, k=k)</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/py-button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/py-box&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">Sampling will take a couple of seconds.<span class="Apple-converted-space"> </span></p>
+<p class="p1">The resulting posterior belief into what<span class="Apple-converted-space"> </span></p>
+<p class="p1">probabilities of obtaining heads are plausible will show up below:</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="myplot"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;br&gt;</p>
+<p class="p1">&lt;p&gt;Made using &lt;a href="https://pyscript.net"&gt;PyScript&lt;/a&gt;, &lt;a href="https://pymc.io"&gt;PyMC&lt;/a&gt;, &lt;a href="https://https://arviz-devs.github.io/arviz/index.html"&gt;Arviz&lt;/a&gt;, &lt;a href="https://docs.bokeh.org/en/latest/index.html"&gt;Bokeh&lt;/a&gt;.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;py-script id="main"&gt;</p>
+<p class="p1">import warnings</p>
+<p class="p1">warnings.filterwarnings("ignore")</p>
+<p class="p2"><br></p>
+<p class="p1">import json</p>
+<p class="p1">from js import Bokeh, JSON</p>
+<p class="p1">from bokeh.embed import json_item</p>
+<p class="p1">from bokeh.plotting import figure</p>
+<p class="p2"><br></p>
+<p class="p1">import arviz as az</p>
+<p class="p1">az.rcParams["plot.backend"] = "bokeh"</p>
+<p class="p2"><br></p>
+<p class="p1">import os, sys</p>
+<p class="p1">sys.stderr = open(os.devnull, "w")</p>
+<p class="p1">import pymc as pm</p>
+<p class="p2"><br></p>
+<p class="p1">def run_model(n=10, k=5):</p>
+<p class="p1"><span class="Apple-converted-space">    </span>with pm.Model() as model:</p>
+<p class="p1"><span class="Apple-converted-space">        </span>p = pm.Beta("p", alpha=1, beta=1)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>obs = pm.Binomial("obs", p=p, n=n, observed=k)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>idata = pm.sample(chains=1, progressbar=False)</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>p = figure(plot_width=500, plot_height=400, toolbar_location="below")</p>
+<p class="p1"><span class="Apple-converted-space">    </span>az.plot_posterior(idata, var_names=["p"], show=False, ax=p)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>p.xaxis.axis_label = 'p'</p>
+<p class="p1"><span class="Apple-converted-space">    </span>p_json = json.dumps(json_item(p, "myplot"))</p>
+<p class="p1"><span class="Apple-converted-space">    </span>Bokeh.embed.embed_item(JSON.parse(p_json))</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/py-script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.addEventListener('load', function() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let input_box_n = document.querySelector("#input_box_n")</p>
+<p class="p1"><span class="Apple-converted-space">            </span>input_box_n.value = "10"</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let input_box_k = document.querySelector("#input_box_k")</p>
+<p class="p1"><span class="Apple-converted-space">            </span>input_box_k.value = "5"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>})</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
