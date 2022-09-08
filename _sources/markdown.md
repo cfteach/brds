@@ -1,4 +1,4 @@
-# Markdown Files
+## Markdown Files
 
 Here is a reference to [my label](label1).
 
