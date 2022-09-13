@@ -1,0 +1,1020 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>PyMC3 primer &#8212; Bayesian Reasoning in Data Science</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="shortcut icon" href="_static/wm_vertical_single_line_full_color.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="References" href="referencesmd.html" />
+    <link rel="prev" title="Thinking Probabilistically (mod1-part1)" href="mod1_part1_thinking_probabilistically.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/wm_vertical_single_line_full_color.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Bayesian Reasoning in Data Science</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Bayesian Reasoning in Data Science
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Lectures
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1uXlxQoqseWwwurtU-HSbqEz6EvE-r4ZSPorJU8kmFgw/edit?usp=sharing">
+   mod1 - Lecture 1 (9/1/2022)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/15rH1oqwgWOUzuWpCG2zTlYv70yoSK4-p96OxwmV6hy0/edit?usp=sharing">
+   mod1 - Lecture 2 (9/6/2022)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod1_part1_thinking_probabilistically.html">
+   (mod1 - part1) Thinking Probabilistically
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Intro to Probabilistic Programming
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Additional resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="referencesmd.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/pyscr/">
+   Mini-project (pyscript + PyMC)
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/cfteach/brds/main?urlpath=tree/notebooks/mod1_part2_intro_probabilistic_programming.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="http://jupyterhub.jlab.org/hub/user-redirect/git-pull?repo=https%3A//github.com/cfteach/brds&urlpath=tree/brds/notebooks/mod1_part2_intro_probabilistic_programming.ipynb&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/cfteach/brds/blob/main/notebooks/mod1_part2_intro_probabilistic_programming.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/cfteach/brds"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/cfteach/brds/issues/new?title=Issue%20on%20page%20%2Fmod1_part2_intro_probabilistic_programming.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/mod1_part2_intro_probabilistic_programming.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summarizing-the-posterior">
+   Summarizing the posterior
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#posterior-based-decisions-is-the-coin-fair">
+     Posterior-based decisions (Is the coin fair?)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loss-functions-how-close-to-the-truth-are-we">
+   Loss functions: how close to the truth are we?
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>PyMC3 primer</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summarizing-the-posterior">
+   Summarizing the posterior
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#posterior-based-decisions-is-the-coin-fair">
+     Posterior-based decisions (Is the coin fair?)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loss-functions-how-close-to-the-truth-are-we">
+   Loss functions: how close to the truth are we?
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;arviz-darkgrid&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
+<span class="n">az</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;arviz-darkgrid&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running on PyMC3 v</span><span class="si">{</span><span class="n">pm</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running on ArviZ v</span><span class="si">{</span><span class="n">az</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running on PyMC3 v3.11.5
+Running on ArviZ v0.12.1
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="pymc3-primer">
+<h1>PyMC3 primer<a class="headerlink" href="#pymc3-primer" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s create our dataset for the flipping coin problem</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">trials</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">theta_real</span> <span class="o">=</span> <span class="mf">0.35</span>  <span class="c1"># unknown value in a real experiment (pretend to know it)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">bernoulli</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">theta_real</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">trials</span><span class="p">)</span>
+<span class="n">data</span> <span class="c1">#this is what you observe</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s create our model in PyMC3</span>
+
+<span class="c1"># the following creates a sort of container of our model</span>
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span> <span class="c1">#everything inside the with-block will add to our_first_model</span>
+    <span class="c1"># prior</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+    <span class="c1"># likelihood</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">θ</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> <span class="c1">#using observed data tells PyMC this is the likelihood</span>
+  
+    <span class="c1">#&quot;The Inference Button&quot;</span>
+    <span class="n">idata</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">123</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#https://docs.pymc.io/en/v3/api/inference.html</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [θ]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [8000/8000 00:00&lt;00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/thushanthytilakahettige/Desktop/teaching/BRDS/test_pymc3/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/thushanthytilakahettige/Desktop/teaching/BRDS/test_pymc3/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/thushanthytilakahettige/Desktop/teaching/BRDS/test_pymc3/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/thushanthytilakahettige/Desktop/teaching/BRDS/test_pymc3/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 4 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<p>With PyMC3 version &gt;=3.9 the return_inferencedata=True kwarg makes the sample function return an arviz.InferenceData object instead of a MultiTrace. InferenceData has many advantages, compared to a MultiTrace: For example it can be saved/loaded from a file, and can also carry additional (meta)data such as date/version, or posterior predictive distributions. See <a class="reference external" href="https://docs.pymc.io/en/v3/pymc-examples/examples/pymc3_howto/api_quickstart.html#3.1-Sampling">here</a></p>
+<div class="alert alert-block alert-info" style="background-color: white; border: 2px solid; padding: 10px">
+    <b><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; Notes</b><br>
+    <p style="color: black">
+        (i) $\theta$ is used first as a Python variable then as the first argument of the Beta function; using the same name is a good practice to avoid confusion.
+        The $\theta$ variable is a random variable; it is not a number but an object representing a probability distribution from which we can compute random numbers and probability densiities. 
+    </p>
+    $\theta \sim Beta (\alpha, \beta)$ 
+    <br>
+    </br>
+    $y \sim Bern (p=\theta)$ 
+ <p  style="color: black">
+ (ii) Notice that using the observed data says to PyMC we are working with a Likelihood (in the example above is Bernoulli). The values of the data can be passed either as a Python list, a tuple, a numpy array or a pandas DataFrame. 
+ </p>
+ <p  style="color: black">
+ (iii) The last line, with trace, is known as the "Inference Button". We are asking for 1000 samples from the posterior and will store them in the trace object. pyMC3 is doing a lot of things under the hood:
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(a) Auto-assigning NUTS sampler...  (NUTS is an inference engine for continuous variables)
+
+(b) Initializing NUTS using jitter+adapt_diag... (method for initiliazing the sampler)
+
+(c) Multiprocess sampling (4 chains in 4 jobs) (PyMC3 will run 4 chains in parallel; we will get 4 independnent samples from the posterior at the price of one; this is done taking into account the number of processors in your machine by default; otherwise, you can specify in the sample the argument &#39;chains&#39;)
+
+(d) NUTS: [θ] (It tells us which variables are being sampled by which sampler. This is useful when things are more complicated than the problem we are dealing which has only θ)
+</pre></div>
+</div>
+ </p>
+</div>
+<div class="alert alert-block alert-info" style="background-color: white; border: 2px solid; padding: 10px">
+    <b><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; Note</b><br>
+    <p style="color: black">
+        Suppose we asked 1000 samples. The autotuning of NUTS takes 1000 iterations. If you have n chains, each will be 2000 (=500+1000). Therefore the total number of iterations is going to be: 2000*n       
+    </p>
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#print(idata)</span>
+<span class="c1">#print(np.shape(idata), type(idata))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">idata</span><span class="p">[</span><span class="s1">&#39;posterior&#39;</span><span class="p">][</span><span class="s1">&#39;θ&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;xarray.DataArray &#39;θ&#39; (draw: 1000)&gt;
+array([0.25964861, 0.2308767 , 0.29476839, 0.33200327, 0.33200327,
+       0.33200327, 0.35876157, 0.43000215, 0.3634925 , 0.3634925 ,
+       0.23460601, 0.25697025, 0.19197712, 0.44920906, 0.38541183,
+       0.23824634, 0.27836108, 0.2580826 , 0.52782893, 0.2660502 ,
+       0.31542351, 0.20636414, 0.1534579 , 0.1534579 , 0.20234891,
+       0.18463077, 0.24037796, 0.19582809, 0.29715401, 0.29715401,
+       0.29764704, 0.2784655 , 0.26747434, 0.21083218, 0.29950335,
+       0.34800062, 0.26594063, 0.38591835, 0.38591835, 0.37814585,
+       0.37814585, 0.37814585, 0.32557304, 0.31818844, 0.24400453,
+       0.35502268, 0.36427355, 0.22270544, 0.43616312, 0.2959793 ,
+       0.30370352, 0.27507983, 0.30192448, 0.49366244, 0.44118881,
+       0.35291058, 0.43096838, 0.436048  , 0.40248839, 0.42853877,
+       0.51587675, 0.40164212, 0.20204451, 0.47784474, 0.3922138 ,
+       0.52626055, 0.52626055, 0.29070862, 0.3286552 , 0.3286552 ,
+       0.34409481, 0.31094256, 0.28742229, 0.3571493 , 0.42259362,
+       0.39773568, 0.2650199 , 0.30505882, 0.29929468, 0.25932505,
+       0.39443692, 0.43575866, 0.32852563, 0.31818718, 0.48052682,
+       0.41222066, 0.41222066, 0.3475428 , 0.3475428 , 0.34249069,
+       0.47233878, 0.48490919, 0.39639693, 0.27090701, 0.26485788,
+       0.29099778, 0.23652862, 0.26880587, 0.42600234, 0.24885181,
+...
+       0.193239  , 0.22729263, 0.27252635, 0.37976829, 0.35930182,
+       0.23494822, 0.30681536, 0.20191771, 0.1355408 , 0.15807679,
+       0.47861563, 0.45536178, 0.37141184, 0.51155997, 0.17571352,
+       0.32562273, 0.33535762, 0.25765614, 0.29280201, 0.31315625,
+       0.31315625, 0.31537688, 0.34384192, 0.44215377, 0.22226637,
+       0.22226637, 0.22226637, 0.27137287, 0.27697422, 0.51455236,
+       0.38627132, 0.38627132, 0.38627132, 0.270508  , 0.52181653,
+       0.34500283, 0.35984159, 0.40276587, 0.30847002, 0.34146572,
+       0.38646877, 0.61389085, 0.42492676, 0.29806033, 0.36067104,
+       0.46803008, 0.46803008, 0.52665603, 0.35338566, 0.35338566,
+       0.26184183, 0.20964699, 0.26129386, 0.28027802, 0.22117307,
+       0.41509007, 0.50308944, 0.27098766, 0.39424791, 0.39825095,
+       0.14109077, 0.31351159, 0.34996452, 0.33753572, 0.33411983,
+       0.47750986, 0.43891524, 0.54745986, 0.09535442, 0.19781566,
+       0.21816028, 0.20128091, 0.42478583, 0.46161559, 0.51666187,
+       0.18541578, 0.15209578, 0.22015188, 0.21623646, 0.20015767,
+       0.42099682, 0.42099682, 0.63495158, 0.52478755, 0.48704272,
+       0.47480865, 0.30491273, 0.27015207, 0.15923759, 0.17303066,
+       0.16302948, 0.07701319, 0.2523181 , 0.31464376, 0.29612415,
+       0.23087089, 0.19495337, 0.19495337, 0.22592705, 0.26534967])
+Coordinates:
+    chain    int64 2
+  * draw     (draw) int64 0 1 2 3 4 5 6 7 8 ... 992 993 994 995 996 997 998 999
+</pre></div>
+</div>
+</div>
+</div>
+<section id="summarizing-the-posterior">
+<h2>Summarizing the posterior<a class="headerlink" href="#summarizing-the-posterior" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">combined</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./output/B11197_02_01.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/mod1_part2_intro_probabilistic_programming_11_0.png" src="_images/mod1_part2_intro_probabilistic_programming_11_0.png" />
+</div>
+</div>
+<div class="alert alert-block alert-info" style="background-color: white; border: 2px solid; padding: 10px">
+    <b><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; Note</b>
+    <p style="color: black">      
+        Depending on the number of chains (N), you have N curves.
+        <br></br>
+        The plots on the left are obtained from Kernel Desinity Estimation (KDE) of the corresponding histograms, while the plots on the right are the sampled values from each chain.      
+        <br></br>
+        You should compare these curves with those obtained analytically in the previous lecture.
+    </p>
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#it returns a Pandas dataframe</span>
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span>
+<span class="c1"># Got error No model on context stack. if return_inferencedata=False</span>
+<span class="c1"># However, if return_inferencedata=False trace[&#39;θ&#39;] not found... </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>θ</th>
+      <td>0.32</td>
+      <td>0.096</td>
+      <td>0.138</td>
+      <td>0.497</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>1706.0</td>
+      <td>2561.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>That’s the mean from all the chains…
+HDI are simple to understand at this point. The other metrics will be explained in the following lectures, but for now know that they are used to interpret the results of a Bayesian inference.</p>
+<div class="alert alert-block alert-info" style="background-color: white; border: 2px solid; padding: 10px">
+    <b><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; Note</b><br>
+    <p style="color: black">
+    HPD: High Posterior Density;  HDI: is the highest density interval. Another way of summarizing a distribution, which we will use often, abbreviated HDI. The HDI indicates which points of a distribution are most credible, and which cover most of the distribution.
+<p>They are often used as synonyms in the legends of the plots.</p>
+   </p>
+</div><section id="posterior-based-decisions-is-the-coin-fair">
+<h3>Posterior-based decisions (Is the coin fair?)<a class="headerlink" href="#posterior-based-decisions-is-the-coin-fair" title="Permalink to this headline">#</a></h3>
+<p>Strictly speaking, a fair coin <span class="math notranslate nohighlight">\(\theta\)</span>=0.5. But the probability of observing exactly 0.5 is practcally 0. We can relax this definition of fairness to a Region of Practical Equivalence (ROPE), say [0.45,0.55] (it depends on your expectations and prior knowledge and it is always context-dependent).</p>
+<p>There are three scenarios:</p>
+<ul class="simple">
+<li><p>the ROPE does not overlap with the HDI; the coin is not fair</p></li>
+<li><p>the ROPE contains the entire HDI; the coin is fair</p></li>
+<li><p>the ROPE partially overlaps with HDI; we cannot make any conclusions</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./output/B11197_02_02.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/mod1_part2_intro_probabilistic_programming_18_0.png" src="_images/mod1_part2_intro_probabilistic_programming_18_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">rope</span><span class="o">=</span><span class="p">[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">.55</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./output/B11197_02_03.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/mod1_part2_intro_probabilistic_programming_19_0.png" src="_images/mod1_part2_intro_probabilistic_programming_19_0.png" />
+</div>
+</div>
+<div class="alert alert-block alert-info" style="background-color: white; border: 2px solid; padding: 10px">
+    <b><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; Notes</b><br>
+    <p style="color: black">
+    Unlike a frequentist approach, Bayesian inference is not based on statistical significance, where effects are tested against “zero”. Indeed, the Bayesian framework offers a probabilistic view of the parameters, allowing assessment of the uncertainty related to them. Thus, rather than concluding that an effect is present when it simply differs from zero, we would conclude that the probability of being outside a specific range that can be considered as “practically no effect” (i.e., a negligible magnitude) is sufficient. This range is called the region of practical equivalence <a href="https://easystats.github.io/bayestestR/articles/region_of_practical_equivalence.html"> (ROPE)</a>.
+<p>Therefore, the idea underlining ROPE is to let the user define an area around the null value enclosing values that are equivalent to the null value for practical purposes
+</p>
+</div></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">ref_val</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./output/B11197_02_04.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/mod1_part2_intro_probabilistic_programming_21_0.png" src="_images/mod1_part2_intro_probabilistic_programming_21_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="loss-functions-how-close-to-the-truth-are-we">
+<h2>Loss functions: how close to the truth are we?<a class="headerlink" href="#loss-functions-how-close-to-the-truth-are-we" title="Permalink to this headline">#</a></h2>
+<p>We can find the value of <span class="math notranslate nohighlight">\(\hat{\theta}\)</span> that minimizes the loss function(s) below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span> <span class="c1">#Le&#39;ts explore a grid of 200 points</span>
+<span class="n">nchain</span> <span class="o">=</span> <span class="mi">0</span> 
+<span class="n">θ_pos</span> <span class="o">=</span> <span class="n">idata</span><span class="p">[</span><span class="s1">&#39;posterior&#39;</span><span class="p">][</span><span class="s1">&#39;θ&#39;</span><span class="p">][</span><span class="n">nchain</span><span class="p">]</span> <span class="c1">#for the nth first chain</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">θ_pos</span><span class="p">)</span>
+
+<span class="c1">#------ here add also the &quot;average&quot; chain ------#</span>
+
+
+<span class="n">lossf_a</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">θ_pos</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">]</span>  <span class="c1">#Absolute Loss</span>
+<span class="n">lossf_b</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">i</span> <span class="o">-</span> <span class="n">θ_pos</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">]</span>  <span class="c1">#Quadratic Loss</span>
+
+
+<span class="k">for</span> <span class="n">lossf</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">lossf_a</span><span class="p">,</span> <span class="n">lossf_b</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">]):</span>
+    <span class="n">mini</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">lossf</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">lossf</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">mini</span><span class="p">],</span> <span class="n">lossf</span><span class="p">[</span><span class="n">mini</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">mini</span><span class="p">]),</span>
+                 <span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">mini</span><span class="p">],</span> <span class="n">lossf</span><span class="p">[</span><span class="n">mini</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.03</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\hat \theta$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./output/B11197_02_05.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+
+<span class="n">check_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">θ_pos</span><span class="p">)</span>
+<span class="n">check_median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">θ_pos</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mean: </span><span class="si">{:3.2f}</span><span class="s1">, median: </span><span class="si">{:3.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">check_mean</span><span class="p">,</span><span class="n">check_median</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;xarray.DataArray &#39;θ&#39; (draw: 1000)&gt;
+array([0.35986819, 0.23793445, 0.27472342, 0.34777275, 0.46235901,
+       0.1630317 , 0.31669555, 0.37883126, 0.33795245, 0.48356288,
+       0.38120963, 0.26406215, 0.38582085, 0.57699365, 0.47992564,
+       0.15988675, 0.5516593 , 0.16191774, 0.25610834, 0.52809551,
+       0.25547977, 0.17300396, 0.21062766, 0.18926698, 0.22679219,
+       0.41337775, 0.44661721, 0.45597114, 0.32436655, 0.34509972,
+       0.39478497, 0.28593878, 0.26289785, 0.28533806, 0.21800791,
+       0.24311865, 0.32646302, 0.30632996, 0.34421134, 0.35700624,
+       0.30651727, 0.33843605, 0.32990145, 0.32990145, 0.29930425,
+       0.17317636, 0.16353757, 0.56281394, 0.46046256, 0.46046256,
+       0.208586  , 0.1974908 , 0.43106712, 0.45270041, 0.24810727,
+       0.21383876, 0.48750785, 0.38125267, 0.46186692, 0.39161742,
+       0.35978344, 0.31574192, 0.22043384, 0.25630947, 0.23343554,
+       0.27436605, 0.1564859 , 0.17062229, 0.1572067 , 0.279454  ,
+       0.26510465, 0.33241055, 0.33241055, 0.36933485, 0.18314664,
+       0.18314664, 0.17684266, 0.20048061, 0.2525933 , 0.2525933 ,
+       0.26713454, 0.32935323, 0.32935323, 0.22612661, 0.15380947,
+       0.33573488, 0.33202538, 0.36417702, 0.30564146, 0.24742538,
+       0.27871137, 0.18711206, 0.19618314, 0.24487698, 0.29484858,
+       0.33521221, 0.3500276 , 0.45503577, 0.30303425, 0.31447388,
+...
+       0.28730952, 0.37416473, 0.39870614, 0.22715366, 0.30540043,
+       0.24109083, 0.24003391, 0.24003391, 0.31393328, 0.2521011 ,
+       0.32547285, 0.32547285, 0.45371678, 0.22707331, 0.37744095,
+       0.28733045, 0.17621198, 0.26957846, 0.39099302, 0.41994913,
+       0.21903393, 0.27986717, 0.28150703, 0.31819665, 0.3196977 ,
+       0.45516111, 0.21946515, 0.23362021, 0.43188303, 0.36724457,
+       0.29265562, 0.28431276, 0.13433931, 0.19889503, 0.19889503,
+       0.20159266, 0.40134858, 0.45478616, 0.29723575, 0.29364812,
+       0.37794922, 0.44915937, 0.44915937, 0.34070321, 0.28294589,
+       0.29441698, 0.29441698, 0.41730201, 0.36624934, 0.38526048,
+       0.41264646, 0.34745866, 0.3365048 , 0.3365048 , 0.33381656,
+       0.48249416, 0.39629296, 0.24249243, 0.19256846, 0.21118406,
+       0.21086844, 0.21347245, 0.21347245, 0.20453277, 0.13203623,
+       0.29414727, 0.29352201, 0.43644133, 0.33169766, 0.42028181,
+       0.15197309, 0.28529336, 0.24720682, 0.25213633, 0.25213633,
+       0.24154764, 0.27865203, 0.27831912, 0.20255332, 0.25330583,
+       0.11812659, 0.51656964, 0.4396739 , 0.35464337, 0.34563145,
+       0.24817439, 0.3242482 , 0.1850232 , 0.18472814, 0.26843548,
+       0.36299204, 0.40674057, 0.43179094, 0.51431637, 0.51431637,
+       0.30216127, 0.40225216, 0.33149639, 0.33149639, 0.30193819])
+Coordinates:
+    chain    int64 0
+  * draw     (draw) int64 0 1 2 3 4 5 6 7 8 ... 992 993 994 995 996 997 998 999
+mean: 0.32, median: 0.32
+</pre></div>
+</div>
+<img alt="_images/mod1_part2_intro_probabilistic_programming_23_1.png" src="_images/mod1_part2_intro_probabilistic_programming_23_1.png" />
+</div>
+</div>
+<div class="alert alert-block alert-info" style="background-color: white; border: 2px solid; padding: 10px">
+    <b><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; Notice</b><br>
+    <p style="color: black"> 
+        We saw this heuristically (calculating the mean and the median), but the key message is that different loss functions are related to different point-estimates. Compare to the plot above. 
+        <br></br>
+        Cost functions could be asymmetric. 
+        A dummy example is the following.
+    </p>
+</div> <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lossf</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">θ_pos</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">θ_pos</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">θ_pos</span><span class="p">))</span>
+    <span class="n">lossf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">mini</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">lossf</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">lossf</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">mini</span><span class="p">],</span> <span class="n">lossf</span><span class="p">[</span><span class="n">mini</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">mini</span><span class="p">]),</span>
+             <span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="n">mini</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">lossf</span><span class="p">[</span><span class="n">mini</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\hat \theta$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./output/B11197_02_06.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/mod1_part2_intro_probabilistic_programming_25_0.png" src="_images/mod1_part2_intro_probabilistic_programming_25_0.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "cfteach/brds",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "test_pymc3"
+        },
+        kernelOptions: {
+            kernelName: "test_pymc3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'test_pymc3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="mod1_part1_thinking_probabilistically.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Thinking Probabilistically (mod1-part1)</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="referencesmd.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">References</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Cristiano Fanelli<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
