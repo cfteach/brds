@@ -625,12 +625,12 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
     <b><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; Notes</b><br>
     <p style="color: black">
         (i) θ is used first as a Python variable then as the first argument of the Beta function; using the same name is a good practice to avoid confusion.
-        The $\theta$ variable is a random variable; it is not a number but an object representing a probability distribution from which we can compute random numbers and probability densiities. 
+        The θ variable is a random variable; it is not a number but an object representing a probability distribution from which we can compute random numbers and probability densiities. 
     </p>
-    $\theta \sim Beta (\alpha, \beta)$ 
+    θ ~ Beta (α, β)
     <br>
     </br>
-    $y \sim Bern (p=\theta)$ 
+    y ~ Bern (p=θ) 
  <p  style="color: black">
  (ii) Notice that using the observed data says to PyMC we are working with a Likelihood (in the example above is Bernoulli). The values of the data can be passed either as a Python list, a tuple, a numpy array or a pandas DataFrame. 
  </p>
@@ -798,7 +798,7 @@ HDI are simple to understand at this point. The other metrics will be explained 
    </p>
 </div><section id="posterior-based-decisions-is-the-coin-fair">
 <h3>Posterior-based decisions (Is the coin fair?)<a class="headerlink" href="#posterior-based-decisions-is-the-coin-fair" title="Permalink to this headline">#</a></h3>
-<p>Strictly speaking, a fair coin <span class="math notranslate nohighlight">\(\theta\)</span>=0.5. But the probability of observing exactly 0.5 is practcally 0. We can relax this definition of fairness to a Region of Practical Equivalence (ROPE), say [0.45,0.55] (it depends on your expectations and prior knowledge and it is always context-dependent).</p>
+<p>Strictly speaking, a fair coin θ=0.5. But the probability of observing exactly 0.5 is practcally 0. We can relax this definition of fairness to a Region of Practical Equivalence (ROPE), say [0.45,0.55] (it depends on your expectations and prior knowledge and it is always context-dependent).</p>
 <p>There are three scenarios:</p>
 <ul class="simple">
 <li><p>the ROPE does not overlap with the HDI; the coin is not fair</p></li>
