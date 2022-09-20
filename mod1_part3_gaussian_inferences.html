@@ -440,18 +440,16 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#">
    Gaussian Inferences
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#posterior-predictive-checks">
-     Posterior Predictive Checks
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#student-s-t-distribution">
-     Student’s t Distribution
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#posterior-predictive-checks">
+   Posterior Predictive Checks
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#student-s-t-distribution">
+   Student’s t Distribution
+  </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
@@ -481,18 +479,16 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#">
    Gaussian Inferences
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#posterior-predictive-checks">
-     Posterior Predictive Checks
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#student-s-t-distribution">
-     Student’s t Distribution
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#posterior-predictive-checks">
+   Posterior Predictive Checks
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#student-s-t-distribution">
+   Student’s t Distribution
+  </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
@@ -748,8 +744,9 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </table>
 </div></div></div>
 </div>
+</section>
 <section id="posterior-predictive-checks">
-<h2>Posterior Predictive Checks<a class="headerlink" href="#posterior-predictive-checks" title="Permalink to this headline">#</a></h2>
+<h1>Posterior Predictive Checks<a class="headerlink" href="#posterior-predictive-checks" title="Permalink to this headline">#</a></h1>
 <p>We can use the posterior to generate predictions — e.g, each of which of the same size of the data. We can check consistency with data. This is a self-consistency check that is allowed by Bayesian Reasoning: it is possible to generate predictions <span class="math notranslate nohighlight">\(\tilde{y}\)</span>, based on data <span class="math notranslate nohighlight">\(y\)</span>, and the estimated parameters <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
 <p><span class="math notranslate nohighlight">\(p(\tilde{y}|y)\)</span>=<span class="math notranslate nohighlight">\(\int{p(\tilde{y}|\theta)}p(\theta|y) d\theta\)</span></p>
 <p>We can use the predicted <span class="math notranslate nohighlight">\(\tilde{y}\)</span> and compare to our data <span class="math notranslate nohighlight">\(y\)</span> to criticize our model. Models should always be checked.</p>
@@ -817,7 +814,7 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <p>One very useful option is replacing the Gaussian likelihood with a Student’s t-distribution</p>
 </section>
 <section id="student-s-t-distribution">
-<h2>Student’s t Distribution<a class="headerlink" href="#student-s-t-distribution" title="Permalink to this headline">#</a></h2>
+<h1>Student’s t Distribution<a class="headerlink" href="#student-s-t-distribution" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -1033,7 +1030,6 @@ Sampling 4 chains for 5_000 tune and 1_000 draw iterations (20_000 + 4_000 draws
 </div><img alt="_images/mod1_part3_gaussian_inferences_27_3.png" src="_images/mod1_part3_gaussian_inferences_27_3.png" />
 </div>
 </div>
-</section>
 </section>
 <section id="references">
 <h1>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h1>
