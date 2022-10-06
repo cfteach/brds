@@ -429,12 +429,46 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise-simple-linear-regression">
+   Exercise: Simple Linear Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparison-with-ordinary-least-sqaures">
+   Comparison with Ordinary Least Sqaures
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise-robust-linear-regression-with-anscombe-dataset">
+   Exercise: Robust linear regression with Anscombe Dataset
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -446,6 +480,29 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise-simple-linear-regression">
+   Exercise: Simple Linear Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparison-with-ordinary-least-sqaures">
+   Comparison with Ordinary Least Sqaures
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exercise-robust-linear-regression-with-anscombe-dataset">
+   Exercise: Robust linear regression with Anscombe Dataset
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -464,11 +521,15 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+<section id="exercise-simple-linear-regression">
+<h2>Exercise: Simple Linear Regression<a class="headerlink" href="#exercise-simple-linear-regression" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 <span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
 
 <span class="n">alpha_real</span> <span class="o">=</span> <span class="mf">2.5</span>  
@@ -481,23 +542,23 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[11.99357583 11.61184528  9.25244795  9.21866766  8.77518144 10.42584497
-  9.8759565  10.6627488  10.15001176  9.63944198  8.21069534  8.17547873
-  8.74981871  9.62865872 10.44055208  9.5328262  10.83777448  9.19109929
- 11.66281154 11.39085264  8.59930908  9.94269469  9.12115634  9.82754917
- 10.27281718  8.76134097  8.97390649 10.67717763 10.59622388  8.38912723
-  9.70155797 10.53842597 10.94786201 10.70640381  9.59940793  9.67666301
-  9.79187034  8.70320556  9.83844113 10.44187972  9.77330119 10.33087132
-  9.97237764 11.17182019 11.16848835 10.4250025   9.43317918 10.6247537
-  9.71113793 10.45707944  9.19727784 10.39646551 11.0045539  10.09111094
- 10.64816145 10.01903106  9.01189912 11.54791263 10.85396029 11.76265359
- 10.50318933  8.42645351 10.8280754   9.39652818 10.99109925 10.17480863
-  9.506303    7.93372939  8.33382455  9.92557465 10.18654932  8.76639667
-  9.7403363   9.59643058 10.50131637 11.52890359 10.90549785  8.83660681
- 10.77522387  9.91961634 10.81126017 10.23633056  9.71884824  9.14432626
- 11.5213461   8.30462163 11.6064404   9.84879599  9.54666384  9.71545374
- 11.01090737 10.40445551 11.17106685 10.31456821  9.0796758  11.76793814
-  9.59483231  9.44501985  8.80357123  9.4928924 ]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x [ 8.9143694  10.99734545 10.2829785   8.49370529  9.42139975 11.65143654
+  7.57332076  9.57108737 11.26593626  9.1332596   9.32111385  9.90529103
+ 11.49138963  9.361098    9.55601804  9.56564872 12.20593008 12.18678609
+ 11.0040539  10.3861864  10.73736858 11.49073203  9.06416613 11.17582904
+  8.74611933  9.3622485  10.9071052   8.5713193   9.85993128  9.1382451
+  9.74438063  7.20141089  8.2284669   9.30012277 10.92746243  9.82636432
+ 10.00284592 10.68822271  9.12046366 10.28362732  9.19463348  8.27233051
+  9.60910021 10.57380586 10.33858905  9.98816951 12.39236527 10.41291216
+ 10.97873601 12.23814334  8.70591468  8.96121179 11.74371223  9.20193726
+ 10.02968323 11.06931597 10.89070639 11.75488618 11.49564414 11.06939267
+  9.22729129 10.79486267 10.31427199  8.67373454 11.41729905 10.80723653
+ 10.04549008  9.76690794  8.80169886 10.19952407 10.46843912  9.16884502
+ 11.16220405  8.90279695  7.87689965 11.03972709  9.59663396  9.87397041
+  9.16248328  8.39403724 11.25523737  9.31113102 11.66095249 10.80730819
+  9.68524185  8.9140976   9.26753801  8.78747687 12.08711336 10.16444123
+ 11.15020554  8.73264795 10.18103513 11.17786194  9.66498924 11.03111446
+  8.91543209  8.63652846 10.37940061  9.62082357]
 </pre></div>
 </div>
 </div>
@@ -516,47 +577,12 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/mod2_part1_Bayesian_Linear_Regression_3_0.png" src="_images/mod2_part1_Bayesian_Linear_Regression_3_0.png" />
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_4_0.png" src="_images/mod2_part1_Bayesian_Linear_Regression_4_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install pymc3
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/
-Requirement already satisfied: pymc3 in /usr/local/lib/python3.7/dist-packages (3.11.5)
-Requirement already satisfied: arviz&gt;=0.11.0 in /usr/local/lib/python3.7/dist-packages (from pymc3) (0.12.1)
-Requirement already satisfied: numpy&lt;1.22.2,&gt;=1.15.0 in /usr/local/lib/python3.7/dist-packages (from pymc3) (1.21.6)
-Requirement already satisfied: deprecat in /usr/local/lib/python3.7/dist-packages (from pymc3) (2.1.1)
-Requirement already satisfied: pandas&gt;=0.24.0 in /usr/local/lib/python3.7/dist-packages (from pymc3) (1.3.5)
-Requirement already satisfied: dill in /usr/local/lib/python3.7/dist-packages (from pymc3) (0.3.5.1)
-Requirement already satisfied: scipy&lt;1.8.0,&gt;=1.7.3 in /usr/local/lib/python3.7/dist-packages (from pymc3) (1.7.3)
-Requirement already satisfied: semver&gt;=2.13.0 in /usr/local/lib/python3.7/dist-packages (from pymc3) (2.13.0)
-Requirement already satisfied: theano-pymc==1.1.2 in /usr/local/lib/python3.7/dist-packages (from pymc3) (1.1.2)
-Requirement already satisfied: fastprogress&gt;=0.2.0 in /usr/local/lib/python3.7/dist-packages (from pymc3) (1.0.3)
-Requirement already satisfied: cachetools&gt;=4.2.1 in /usr/local/lib/python3.7/dist-packages (from pymc3) (4.2.4)
-Requirement already satisfied: patsy&gt;=0.5.1 in /usr/local/lib/python3.7/dist-packages (from pymc3) (0.5.2)
-Requirement already satisfied: typing-extensions&gt;=3.7.4 in /usr/local/lib/python3.7/dist-packages (from pymc3) (4.1.1)
-Requirement already satisfied: filelock in /usr/local/lib/python3.7/dist-packages (from theano-pymc==1.1.2-&gt;pymc3) (3.8.0)
-Requirement already satisfied: xarray-einstats&gt;=0.2 in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (0.2.2)
-Requirement already satisfied: setuptools&gt;=38.4 in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (57.4.0)
-Requirement already satisfied: matplotlib&gt;=3.0 in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (3.2.2)
-Requirement already satisfied: xarray&gt;=0.16.1 in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (0.20.2)
-Requirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (21.3)
-Requirement already satisfied: netcdf4 in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (1.6.0)
-Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (3.0.9)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (1.4.4)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.7/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (0.11.0)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (2.8.2)
-Requirement already satisfied: pytz&gt;=2017.3 in /usr/local/lib/python3.7/dist-packages (from pandas&gt;=0.24.0-&gt;pymc3) (2022.2.1)
-Requirement already satisfied: six in /usr/local/lib/python3.7/dist-packages (from patsy&gt;=0.5.1-&gt;pymc3) (1.15.0)
-Requirement already satisfied: importlib-metadata in /usr/local/lib/python3.7/dist-packages (from xarray&gt;=0.16.1-&gt;arviz&gt;=0.11.0-&gt;pymc3) (4.12.0)
-Requirement already satisfied: wrapt&lt;2,&gt;=1.10 in /usr/local/lib/python3.7/dist-packages (from deprecat-&gt;pymc3) (1.14.1)
-Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata-&gt;xarray&gt;=0.16.1-&gt;arviz&gt;=0.11.0-&gt;pymc3) (3.8.1)
-Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages (from netcdf4-&gt;arviz&gt;=0.11.0-&gt;pymc3) (1.6.1)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install pymc3</span>
 </pre></div>
 </div>
 </div>
@@ -573,11 +599,17 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
     <span class="n">μ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;μ&#39;</span><span class="p">,</span> <span class="n">α</span> <span class="o">+</span> <span class="n">β</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
     <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;y_pred&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">α</span> <span class="o">+</span> <span class="n">β</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">ϵ</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="n">trace_g</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span><span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">trace_g</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [ϵ, β, α]
+</pre></div>
+</div>
 <div class="output text_html">
 <style>
     /* Turns off some styling */
@@ -596,31 +628,21 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='2800' class='' max='2800' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [2800/2800 00:10&lt;00:00 Sampling chain 0, 0 divergences]
+  <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [12000/12000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='2800' class='' max='2800' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [2800/2800 00:10&lt;00:00 Sampling chain 1, 0 divergences]
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 9 seconds.
+</pre></div>
 </div>
-</div></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -629,16 +651,15 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7ff7903296d0&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7ff7a4210410&gt;],
-       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7ff7935a01d0&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7ff792fa1150&gt;],
-       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7ff7900d2dd0&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7ff78ff642d0&gt;]],
-      dtype=object)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;α&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;α&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;β&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;β&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;ϵ&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;ϵ&#39;}&gt;]], dtype=object)
 </pre></div>
 </div>
-<img alt="_images/mod2_part1_Bayesian_Linear_Regression_6_1.png" src="_images/mod2_part1_Bayesian_Linear_Regression_6_1.png" />
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_7_1.png" src="_images/mod2_part1_Bayesian_Linear_Regression_7_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -648,10 +669,7 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html">
-  <div id="df-7257145a-012a-48cc-92dd-277f888f1bf3">
-    <div class="colab-df-container">
-      <div>
+<div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -683,62 +701,62 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
   <tbody>
     <tr>
       <th>α</th>
-      <td>3.443</td>
-      <td>0.536</td>
-      <td>2.381</td>
-      <td>4.384</td>
-      <td>0.016</td>
-      <td>0.011</td>
-      <td>1171.0</td>
-      <td>1237.0</td>
+      <td>2.595</td>
+      <td>0.447</td>
+      <td>1.728</td>
+      <td>3.404</td>
+      <td>0.009</td>
+      <td>0.006</td>
+      <td>2733.0</td>
+      <td>3003.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>β</th>
-      <td>0.800</td>
-      <td>0.053</td>
-      <td>0.705</td>
-      <td>0.905</td>
-      <td>0.002</td>
+      <td>0.889</td>
+      <td>0.044</td>
+      <td>0.804</td>
+      <td>0.972</td>
       <td>0.001</td>
-      <td>1164.0</td>
-      <td>1253.0</td>
+      <td>0.001</td>
+      <td>2707.0</td>
+      <td>3044.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>ϵ</th>
-      <td>0.499</td>
-      <td>0.038</td>
+      <td>0.496</td>
+      <td>0.036</td>
       <td>0.431</td>
-      <td>0.569</td>
+      <td>0.566</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>1703.0</td>
-      <td>1488.0</td>
+      <td>0.000</td>
+      <td>3258.0</td>
+      <td>2847.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ[0]</th>
-      <td>13.044</td>
-      <td>0.117</td>
-      <td>12.823</td>
-      <td>13.261</td>
-      <td>0.003</td>
-      <td>0.002</td>
-      <td>1384.0</td>
-      <td>1389.0</td>
+      <td>10.524</td>
+      <td>0.070</td>
+      <td>10.398</td>
+      <td>10.662</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>3636.0</td>
+      <td>4872.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ[1]</th>
-      <td>12.738</td>
-      <td>0.099</td>
-      <td>12.541</td>
-      <td>12.910</td>
-      <td>0.003</td>
-      <td>0.002</td>
-      <td>1481.0</td>
-      <td>1405.0</td>
+      <td>12.377</td>
+      <td>0.065</td>
+      <td>12.252</td>
+      <td>12.498</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4269.0</td>
+      <td>5502.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -755,144 +773,68 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
     </tr>
     <tr>
       <th>μ[95]</th>
-      <td>12.863</td>
-      <td>0.106</td>
-      <td>12.652</td>
-      <td>13.047</td>
-      <td>0.003</td>
-      <td>0.002</td>
-      <td>1434.0</td>
-      <td>1382.0</td>
+      <td>12.407</td>
+      <td>0.066</td>
+      <td>12.280</td>
+      <td>12.530</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4202.0</td>
+      <td>5346.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ[96]</th>
-      <td>11.124</td>
-      <td>0.054</td>
-      <td>11.023</td>
-      <td>11.226</td>
+      <td>10.525</td>
+      <td>0.070</td>
+      <td>10.399</td>
+      <td>10.663</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>2450.0</td>
-      <td>2844.0</td>
+      <td>3638.0</td>
+      <td>4872.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ[97]</th>
-      <td>11.004</td>
-      <td>0.058</td>
-      <td>10.893</td>
-      <td>11.110</td>
+      <td>10.277</td>
+      <td>0.079</td>
+      <td>10.130</td>
+      <td>10.426</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>2121.0</td>
-      <td>2826.0</td>
+      <td>3362.0</td>
+      <td>4434.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ[98]</th>
-      <td>10.490</td>
-      <td>0.081</td>
-      <td>10.344</td>
-      <td>10.649</td>
-      <td>0.002</td>
+      <td>11.828</td>
+      <td>0.052</td>
+      <td>11.729</td>
+      <td>11.925</td>
       <td>0.001</td>
-      <td>1496.0</td>
-      <td>1973.0</td>
+      <td>0.000</td>
+      <td>6144.0</td>
+      <td>5820.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ[99]</th>
-      <td>11.042</td>
-      <td>0.057</td>
-      <td>10.937</td>
-      <td>11.150</td>
+      <td>11.153</td>
+      <td>0.053</td>
+      <td>11.053</td>
+      <td>11.250</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>2214.0</td>
-      <td>2858.0</td>
+      <td>5284.0</td>
+      <td>5478.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
 </table>
 <p>103 rows × 9 columns</p>
-</div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-7257145a-012a-48cc-92dd-277f888f1bf3')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
-  </svg>
-      </button>
-
-  <style>
-    .colab-df-container {
-      display:flex;
-      flex-wrap:wrap;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-      <script>
-        const buttonEl =
-          document.querySelector('#df-7257145a-012a-48cc-92dd-277f888f1bf3 button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-7257145a-012a-48cc-92dd-277f888f1bf3');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
-
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
-    </div>
-  </div>
-</div></div>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -901,10 +843,10 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7ff78fa8f610&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;α&#39;, ylabel=&#39;β&#39;&gt;
 </pre></div>
 </div>
-<img alt="_images/mod2_part1_Bayesian_Linear_Regression_8_1.png" src="_images/mod2_part1_Bayesian_Linear_Regression_8_1.png" />
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_9_1.png" src="_images/mod2_part1_Bayesian_Linear_Regression_9_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -923,6 +865,7 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
 
 <span class="n">draws</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">trace_g</span><span class="p">[</span><span class="s1">&#39;posterior&#39;</span><span class="p">][</span><span class="s1">&#39;α&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">10</span><span class="p">)</span>
 
+
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">trace_a</span><span class="p">[</span><span class="n">draws</span><span class="p">]</span> <span class="o">+</span> <span class="n">trace_b</span><span class="p">[</span><span class="n">draws</span><span class="p">]</span>
          <span class="o">*</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
 
@@ -936,7 +879,7 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/mod2_part1_Bayesian_Linear_Regression_9_0.png" src="_images/mod2_part1_Bayesian_Linear_Regression_9_0.png" />
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_10_0.png" src="_images/mod2_part1_Bayesian_Linear_Regression_10_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -944,7 +887,7 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha_m</span> <span class="o">+</span> <span class="n">beta_m</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
          <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;y = </span><span class="si">{</span><span class="n">alpha_m</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> + </span><span class="si">{</span><span class="n">beta_m</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> * x&#39;</span><span class="p">)</span>
 
-<span class="n">sig</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">trace_g</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s1">&#39;μ&#39;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">trace_g</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s1">&#39;μ&#39;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -953,21 +896,21 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ff78f7ad950&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x29ca0ffd0&gt;
 </pre></div>
 </div>
-<img alt="_images/mod2_part1_Bayesian_Linear_Regression_10_1.png" src="_images/mod2_part1_Bayesian_Linear_Regression_10_1.png" />
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_11_1.png" src="_images/mod2_part1_Bayesian_Linear_Regression_11_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_g</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_g</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_g</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_g</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/pymc3/sampling.py:1709: UserWarning: samples parameter is smaller than nchains times ndraws, some draws and/or chains may not be represented in the returned posterior predictive sample
-  &quot;samples parameter is smaller than nchains times ndraws, some draws &quot;
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/pymc3/sampling.py:1708: UserWarning: samples parameter is smaller than nchains times ndraws, some draws and/or chains may not be represented in the returned posterior predictive sample
+  warnings.warn(
 </pre></div>
 </div>
 <div class="output text_html">
@@ -988,8 +931,8 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='2000' class='' max='2000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [2000/2000 00:04&lt;00:00]
+  <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [4000/4000 00:01&lt;00:00]
 </div>
 </div></div>
 </div>
@@ -1011,19 +954,421 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/arviz/plots/hdiplot.py:157: FutureWarning: hdi currently interprets 2d data as (draw, shape) but this will change in a future release to (chain, draw) for coherence with other functions
-  hdi_data = hdi(y, hdi_prob=hdi_prob, circular=circular, multimodal=False, **hdi_kwargs)
-/usr/local/lib/python3.7/dist-packages/arviz/plots/hdiplot.py:157: FutureWarning: hdi currently interprets 2d data as (draw, shape) but this will change in a future release to (chain, draw) for coherence with other functions
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/arviz/plots/hdiplot.py:157: FutureWarning: hdi currently interprets 2d data as (draw, shape) but this will change in a future release to (chain, draw) for coherence with other functions
   hdi_data = hdi(y, hdi_prob=hdi_prob, circular=circular, multimodal=False, **hdi_kwargs)
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;y&#39;)
 </pre></div>
 </div>
-<img alt="_images/mod2_part1_Bayesian_Linear_Regression_12_2.png" src="_images/mod2_part1_Bayesian_Linear_Regression_12_2.png" />
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_13_2.png" src="_images/mod2_part1_Bayesian_Linear_Regression_13_2.png" />
 </div>
 </div>
-<p>ϵ</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mus</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[:][</span><span class="s1">&#39;mean&#39;</span><span class="p">][</span><span class="mi">3</span> <span class="p">:]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">hdi_3</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[:][</span><span class="s1">&#39;hdi_3%&#39;</span><span class="p">][</span><span class="mi">3</span> <span class="p">:]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">hdi_97</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[:][</span><span class="s1">&#39;hdi_97%&#39;</span><span class="p">][</span><span class="mi">3</span> <span class="p">:]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mus</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">hdi_3</span><span class="p">,</span> <span class="s1">&#39;r.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">hdi_97</span><span class="p">,</span> <span class="s1">&#39;b.&#39;</span><span class="p">)</span>
+<span class="c1">#plt.fill_between(x,hdi_3,hdi_97, facecolor = &quot;red&quot;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x29b7ab0a0&gt;]
+</pre></div>
+</div>
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_16_1.png" src="_images/mod2_part1_Bayesian_Linear_Regression_16_1.png" />
+</div>
+</div>
+</section>
+<section id="comparison-with-ordinary-least-sqaures">
+<h2>Comparison with Ordinary Least Sqaures<a class="headerlink" href="#comparison-with-ordinary-least-sqaures" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lreg</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+
+<span class="n">slope</span> <span class="o">=</span> <span class="n">lreg</span><span class="o">.</span><span class="n">slope</span>
+<span class="n">slope_err</span> <span class="o">=</span> <span class="n">lreg</span><span class="o">.</span><span class="n">stderr</span>
+<span class="n">interc</span> <span class="o">=</span> <span class="n">lreg</span><span class="o">.</span><span class="n">intercept</span>
+<span class="n">interc_err</span> <span class="o">=</span> <span class="n">lreg</span><span class="o">.</span><span class="n">intercept_stderr</span>
+
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_g</span><span class="p">)</span>
+<span class="n">alpha_m</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;α&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span>
+<span class="n">alpha_s</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;α&#39;</span><span class="p">][</span><span class="s1">&#39;sd&#39;</span><span class="p">]</span>
+<span class="n">beta_m</span>  <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;β&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span>
+<span class="n">beta_s</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;β&#39;</span><span class="p">][</span><span class="s1">&#39;sd&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">OLS:</span><span class="se">\n</span><span class="s2">α= </span><span class="si">{:1.3}</span><span class="s2"> +/- </span><span class="si">{:1.3}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interc</span><span class="p">,</span><span class="n">interc_err</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;β= </span><span class="si">{:1.3}</span><span class="s2"> +/- </span><span class="si">{:1.3}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span><span class="n">slope_err</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">BayesLR:</span><span class="se">\n</span><span class="s2">α= </span><span class="si">{:1.3}</span><span class="s2"> +/- </span><span class="si">{:1.3}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">alpha_m</span><span class="p">,</span><span class="n">alpha_s</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;β= </span><span class="si">{:1.3}</span><span class="s2"> +/- </span><span class="si">{:1.3}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">beta_m</span><span class="p">,</span><span class="n">beta_s</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OLS:
+α= 2.57 +/- 0.438
+β= 0.892 +/- 0.0434
+
+
+BayesLR:
+α= 2.6 +/- 0.447
+β= 0.889 +/- 0.044
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-robust-linear-regression-with-anscombe-dataset">
+<h2>Exercise: Robust linear regression with Anscombe Dataset<a class="headerlink" href="#exercise-robust-linear-regression-with-anscombe-dataset" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">csv</span> 
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">target_url</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/cfteach/brds/main/datasets/anscombe.csv&#39;</span> 
+
+<span class="n">download</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target_url</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+<span class="n">ans</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">download</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)))</span>
+
+
+<span class="n">x_3</span> <span class="o">=</span> <span class="n">ans</span><span class="p">[</span><span class="n">ans</span><span class="o">.</span><span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;III&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">x_3</span> <span class="o">=</span> <span class="n">ans</span><span class="p">[</span><span class="n">ans</span><span class="o">.</span><span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;III&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_3</span> <span class="o">=</span> <span class="n">ans</span><span class="p">[</span><span class="n">ans</span><span class="o">.</span><span class="n">group</span> <span class="o">==</span> <span class="s1">&#39;III&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">x_3</span> <span class="o">=</span> <span class="n">x_3</span> <span class="o">-</span> <span class="n">x_3</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">lreg</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">y_3</span><span class="p">)</span>
+
+<span class="n">beta_c</span><span class="p">,</span> <span class="n">alpha_c</span> <span class="o">=</span> <span class="n">lreg</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="p">(</span><span class="n">alpha_c</span> <span class="o">+</span> <span class="n">beta_c</span> <span class="o">*</span> <span class="n">x_3</span><span class="p">),</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span>
+           <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;y =</span><span class="si">{</span><span class="n">alpha_c</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> + </span><span class="si">{</span><span class="n">beta_c</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> * x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">y_3</span><span class="p">,</span> <span class="s1">&#39;C0o&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_kde</span><span class="p">(</span><span class="n">y_3</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_22_0.png" src="_images/mod2_part1_Bayesian_Linear_Regression_22_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_t</span><span class="p">:</span>
+    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;α&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">y_3</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">sd</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">β</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;β&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ϵ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s1">&#39;ϵ&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">ν_</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s1">&#39;ν_&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">29</span><span class="p">)</span>
+    <span class="n">ν</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;ν&#39;</span><span class="p">,</span> <span class="n">ν_</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">#a shifted exponential to avoid values of ν close to 0 </span>
+
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">StudentT</span><span class="p">(</span><span class="s1">&#39;y_pred&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">α</span> <span class="o">+</span> <span class="n">β</span> <span class="o">*</span> <span class="n">x_3</span><span class="p">,</span>
+                         <span class="n">sd</span><span class="o">=</span><span class="n">ϵ</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">ν</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_3</span><span class="p">)</span>
+
+    <span class="n">trace_t</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [ν_, ϵ, β, α]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [24000/24000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 8 seconds.
+The number of effective samples is smaller than 25% for some parameters.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">varnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;α&#39;</span><span class="p">,</span> <span class="s1">&#39;β&#39;</span><span class="p">,</span> <span class="s1">&#39;ϵ&#39;</span><span class="p">,</span> <span class="s1">&#39;ν&#39;</span><span class="p">]</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_t</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">varnames</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_24_0.png" src="_images/mod2_part1_Bayesian_Linear_Regression_24_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_c</span><span class="p">,</span> <span class="n">alpha_c</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">y_3</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">rest</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_t</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="p">(</span><span class="n">alpha_c</span> <span class="o">+</span> <span class="n">beta_c</span> <span class="o">*</span> <span class="n">x_3</span><span class="p">),</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;non-robust&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">y_3</span><span class="p">,</span> <span class="s1">&#39;C0o&#39;</span><span class="p">)</span>
+<span class="n">alpha_m</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;α&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span>
+<span class="n">beta_m</span>  <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;β&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">alpha_m</span> <span class="o">+</span> <span class="n">beta_m</span> <span class="o">*</span> <span class="n">x_3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;robust&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_25_0.png" src="_images/mod2_part1_Bayesian_Linear_Regression_25_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_t</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">varnames</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>α</th>
+      <td>7.114</td>
+      <td>0.001</td>
+      <td>7.112</td>
+      <td>7.117</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>10694.0</td>
+      <td>10221.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>β</th>
+      <td>0.345</td>
+      <td>0.000</td>
+      <td>0.345</td>
+      <td>0.346</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>9272.0</td>
+      <td>8380.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>ϵ</th>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>0.006</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>4064.0</td>
+      <td>2033.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>ν</th>
+      <td>1.212</td>
+      <td>0.203</td>
+      <td>1.000</td>
+      <td>1.581</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>7615.0</td>
+      <td>5699.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_t</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_t</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/pymc3/sampling.py:1708: UserWarning: samples parameter is smaller than nchains times ndraws, some draws and/or chains may not be represented in the returned posterior predictive sample
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='200' class='' max='200' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [200/200 00:00&lt;00:00]
+</div>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_ppc</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">from_pymc3</span><span class="p">(</span><span class="n">posterior_predictive</span><span class="o">=</span><span class="n">ppc</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model_t</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">data_ppc</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">mean</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;y&#39;)
+</pre></div>
+</div>
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_28_1.png" src="_images/mod2_part1_Bayesian_Linear_Regression_28_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">y_3</span><span class="p">,</span> <span class="s1">&#39;b.&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">alpha_m</span> <span class="o">+</span> <span class="n">beta_m</span> <span class="o">*</span> <span class="n">x_3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;y = </span><span class="si">{</span><span class="n">alpha_m</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> + </span><span class="si">{</span><span class="n">beta_m</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> * x&#39;</span><span class="p">)</span>
+
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;y_pred&#39;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;y_pred&#39;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/arviz/plots/hdiplot.py:157: FutureWarning: hdi currently interprets 2d data as (draw, shape) but this will change in a future release to (chain, draw) for coherence with other functions
+  hdi_data = hdi(y, hdi_prob=hdi_prob, circular=circular, multimodal=False, **hdi_kwargs)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;y&#39;)
+</pre></div>
+</div>
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_29_2.png" src="_images/mod2_part1_Bayesian_Linear_Regression_29_2.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">5.</span><span class="p">,</span><span class="mf">9.</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">y_3</span><span class="p">,</span> <span class="s1">&#39;b.&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">alpha_m</span> <span class="o">+</span> <span class="n">beta_m</span> <span class="o">*</span> <span class="n">x_3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;y = </span><span class="si">{</span><span class="n">alpha_m</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> + </span><span class="si">{</span><span class="n">beta_m</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> * x&#39;</span><span class="p">)</span>
+
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;y_pred&#39;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x_3</span><span class="p">,</span> <span class="n">ppc</span><span class="p">[</span><span class="s1">&#39;y_pred&#39;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;y&#39;)
+</pre></div>
+</div>
+<img alt="_images/mod2_part1_Bayesian_Linear_Regression_30_1.png" src="_images/mod2_part1_Bayesian_Linear_Regression_30_1.png" />
+</div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1035,16 +1380,16 @@ Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages 
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "jupynb_env_new"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "jupynb_env_new",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'jupynb_env_new'</script>
 
               </div>
               
