@@ -169,7 +169,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   (mod2 - part1) Bayesian Polynomial Regression
+   (mod2 - part2) Bayesian Polynomial Regression
   </a>
  </li>
 </ul>
@@ -535,12 +535,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x28f895f10&gt;]
-</pre></div>
-</div>
-<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_3_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_3_1.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -572,46 +566,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [epsilon, beta2, beta1, alpha]
-</pre></div>
-</div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:02&lt;00:00 Sampling 4 chains, 0 divergences]
-</div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 9 seconds.
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -619,59 +573,11 @@ Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws 
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;alpha&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;alpha&#39;}&gt;],
-       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;beta1&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;beta1&#39;}&gt;],
-       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;beta2&#39;}&gt;,
-        &lt;AxesSubplot:title={&#39;center&#39;:&#39;beta2&#39;}&gt;]], dtype=object)
-</pre></div>
-</div>
-<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_7_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_7_1.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_poly</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>          mean     sd  hdi_3%  hdi_97%  mcse_mean  mcse_sd  ess_bulk  \
-alpha    8.768  0.001   8.766    8.770        0.0      0.0    3441.0   
-beta1    0.500  0.000   0.500    0.500        0.0      0.0    4655.0   
-beta2   -0.127  0.000  -0.127   -0.127        0.0      0.0    3274.0   
-epsilon  0.002  0.001   0.001    0.003        0.0      0.0    2003.0   
-mu[0]    9.141  0.001   9.140    9.143        0.0      0.0    3573.0   
-mu[1]    8.141  0.001   8.139    8.143        0.0      0.0    3553.0   
-mu[2]    8.741  0.001   8.739    8.743        0.0      0.0    5754.0   
-mu[3]    8.768  0.001   8.766    8.770        0.0      0.0    3441.0   
-mu[4]    9.261  0.001   9.260    9.263        0.0      0.0    4125.0   
-mu[5]    8.100  0.002   8.097    8.103        0.0      0.0    4779.0   
-mu[6]    6.128  0.001   6.126    6.129        0.0      0.0    5174.0   
-mu[7]    3.100  0.002   3.097    3.103        0.0      0.0    4542.0   
-mu[8]    9.128  0.001   9.126    9.129        0.0      0.0    5410.0   
-mu[9]    7.261  0.001   7.260    7.263        0.0      0.0    4063.0   
-mu[10]   4.741  0.001   4.739    4.743        0.0      0.0    5287.0   
-
-         ess_tail  r_hat  
-alpha      3313.0    1.0  
-beta1      3357.0    1.0  
-beta2      3270.0    1.0  
-epsilon    1761.0    1.0  
-mu[0]      3473.0    1.0  
-mu[1]      3403.0    1.0  
-mu[2]      4185.0    1.0  
-mu[3]      3313.0    1.0  
-mu[4]      3956.0    1.0  
-mu[5]      3864.0    1.0  
-mu[6]      4564.0    1.0  
-mu[7]      4294.0    1.0  
-mu[8]      4549.0    1.0  
-mu[9]      3971.0    1.0  
-mu[10]     4709.0    1.0  
 </pre></div>
 </div>
 </div>
@@ -691,20 +597,6 @@ mu[10]     4709.0    1.0
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean            8.768
-sd              0.001
-hdi_3%          8.766
-hdi_97%         8.770
-mcse_mean       0.000
-mcse_sd         0.000
-ess_bulk     3441.000
-ess_tail     3313.000
-r_hat           1.000
-Name: alpha, dtype: float64
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -721,12 +613,6 @@ Name: alpha, dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x28db99190&gt;]
-</pre></div>
-</div>
-<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_11_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_11_1.png" />
-</div>
 </div>
 <section id="perturbed-dataset">
 <h2>Perturbed Dataset<a class="headerlink" href="#perturbed-dataset" title="Permalink to this headline">#</a></h2>
@@ -740,7 +626,7 @@ Name: alpha, dtype: float64
 <span class="c1">#print(y[0])</span>
 <span class="c1">#print(type(y))</span>
 
-<span class="c1">#yn = y.copy() </span>
+<span class="n">yn</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> 
 <span class="c1">#tidx = 0</span>
 <span class="c1">#yn[tidx] = yn[tidx] + np.random.normal(0,2.)</span>
 
@@ -753,7 +639,14 @@ Name: alpha, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x299417ee0&gt;]
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">16</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">yn</span><span class="p">,</span><span class="s1">&#39;C0.&#39;</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">16</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xr</span><span class="p">,</span><span class="n">yr</span><span class="p">,</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;xr&#39; is not defined
 </pre></div>
 </div>
 <img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_14_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_14_1.png" />
@@ -761,7 +654,7 @@ Name: alpha, dtype: float64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_poly</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_poly2</span><span class="p">:</span>
   <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
   <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta1&#39;</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
   <span class="n">beta2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta2&#39;</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
@@ -801,7 +694,7 @@ NUTS: [epsilon, beta2, beta1, alpha]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:02&lt;00:00 Sampling 4 chains, 0 divergences]
+  100.00% [16000/16000 00:02&lt;00:00 Sampling 4 chains, 2 divergences]
 </div>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
@@ -812,6 +705,7 @@ NUTS: [epsilon, beta2, beta1, alpha]
 /Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
 Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 9 seconds.
+There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -847,38 +741,38 @@ Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws 
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>          mean     sd  hdi_3%  hdi_97%  mcse_mean  mcse_sd  ess_bulk  \
-alpha    7.638  0.519   6.691    8.655      0.008    0.006    4391.0   
-beta1    0.522  0.129   0.283    0.770      0.002    0.001    4575.0   
-beta2   -0.078  0.043  -0.154    0.006      0.001    0.000    3944.0   
-epsilon  1.301  0.381   0.706    1.987      0.007    0.005    2693.0   
-mu[0]    8.081  0.504   7.176    9.071      0.008    0.005    4373.0   
-mu[1]    7.037  0.509   6.079    7.991      0.007    0.005    4633.0   
-mu[2]    8.471  0.698   7.148    9.828      0.009    0.007    5548.0   
-mu[3]    7.638  0.519   6.691    8.655      0.008    0.006    4391.0   
-mu[4]    8.368  0.483   7.453    9.265      0.007    0.005    4790.0   
-mu[5]    8.287  1.012   6.295   10.174      0.014    0.010    5102.0   
-mu[6]    5.367  0.539   4.329    6.391      0.007    0.005    5958.0   
-mu[7]    3.068  1.020   1.210    5.142      0.016    0.011    4383.0   
-mu[8]    8.498  0.525   7.504    9.523      0.007    0.005    5508.0   
-mu[9]    6.280  0.495   5.360    7.240      0.007    0.005    5278.0   
-mu[10]   4.296  0.711   2.985    5.709      0.010    0.007    5348.0   
+alpha    8.949  0.253   8.461    9.406      0.005    0.003    3571.0   
+beta1    0.519  0.052   0.421    0.617      0.001    0.001    4749.0   
+beta2   -0.131  0.019  -0.167   -0.096      0.000    0.000    3844.0   
+epsilon  0.512  0.172   0.266    0.809      0.003    0.002    2723.0   
+mu[0]    9.337  0.245   8.887    9.811      0.004    0.003    3739.0   
+mu[1]    8.299  0.245   7.849    8.758      0.004    0.003    3670.0   
+mu[2]    8.921  0.288   8.379    9.446      0.004    0.003    5672.0   
+mu[3]    8.949  0.253   8.461    9.406      0.005    0.003    3571.0   
+mu[4]    9.461  0.227   8.989    9.835      0.004    0.003    4315.0   
+mu[5]    8.257  0.417   7.461    9.034      0.006    0.004    4876.0   
+mu[6]    6.209  0.228   5.778    6.625      0.003    0.002    5577.0   
+mu[7]    3.067  0.419   2.272    3.846      0.006    0.004    5730.0   
+mu[8]    9.323  0.228   8.886    9.741      0.003    0.002    5540.0   
+mu[9]    7.385  0.227   6.961    7.797      0.004    0.003    4205.0   
+mu[10]   4.770  0.289   4.207    5.293      0.004    0.003    6466.0   
 
          ess_tail  r_hat  
-alpha      4510.0    1.0  
-beta1      3639.0    1.0  
-beta2      4160.0    1.0  
-epsilon    2546.0    1.0  
-mu[0]      4673.0    1.0  
-mu[1]      4770.0    1.0  
-mu[2]      4993.0    1.0  
-mu[3]      4510.0    1.0  
-mu[4]      4926.0    1.0  
-mu[5]      5185.0    1.0  
-mu[6]      4582.0    1.0  
-mu[7]      4276.0    1.0  
-mu[8]      4602.0    1.0  
-mu[9]      5108.0    1.0  
-mu[10]     4660.0    1.0  
+alpha      2957.0    1.0  
+beta1      3561.0    1.0  
+beta2      2975.0    1.0  
+epsilon    3095.0    1.0  
+mu[0]      3240.0    1.0  
+mu[1]      3097.0    1.0  
+mu[2]      4263.0    1.0  
+mu[3]      2957.0    1.0  
+mu[4]      4379.0    1.0  
+mu[5]      3778.0    1.0  
+mu[6]      4135.0    1.0  
+mu[7]      4661.0    1.0  
+mu[8]      4726.0    1.0  
+mu[9]      3310.0    1.0  
+mu[10]     4960.0    1.0  
 </pre></div>
 </div>
 </div>
@@ -886,7 +780,7 @@ mu[10]     4660.0    1.0
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#az.plot_hdi(x,res2[&#39;mu&#39;], color=&#39;k&#39;)</span>
-<span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_poly_per</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_poly</span><span class="p">)</span>
+<span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_poly_per</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_poly2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -930,6 +824,413 @@ mu[10]     4660.0    1.0
 </pre></div>
 </div>
 <img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_19_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_19_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s1">&#39;C0.&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x17be96a90&gt;]
+</pre></div>
+</div>
+<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_20_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_20_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1. -1.  4.  0.  2.  5. -3. -5.  3. -2. -4.]
+[9.14 8.14 8.74 8.77 9.26 8.1  6.13 3.1  9.13 7.26 4.74]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">operator</span>
+<span class="n">L</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">new_x</span><span class="p">,</span> <span class="n">new_y</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">L</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">new_x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">new_y</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">new_x</span><span class="p">,</span><span class="n">new_y</span><span class="p">,</span><span class="s1">&#39;C0.&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-5.0, -4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0)
+(3.1, 4.74, 6.13, 7.26, 8.14, 8.77, 9.14, 9.26, 9.13, 8.74, 8.1)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x17d028640&gt;]
+</pre></div>
+</div>
+<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_23_2.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_23_2.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span> 
+<span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">]</span>
+
+<span class="c1">#data = []</span>
+
+<span class="c1">#for i,j in zip(new_x, new_y):</span>
+<span class="c1">#    l=[]</span>
+<span class="c1">#    l.append(i)</span>
+<span class="c1">#    l.append(j)</span>
+<span class="c1">#    data.append(l)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_y</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">new_y</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">new_x</span><span class="p">,</span><span class="n">new_y</span><span class="p">,</span><span class="s1">&#39;C0.&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x17d7d7d60&gt;]
+</pre></div>
+</div>
+<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_25_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_25_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_y</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mf">1.5</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">new_x</span><span class="p">,</span><span class="n">new_y</span><span class="p">,</span><span class="s1">&#39;C0.&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1">#print(data[3][1])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x17d0d7e80&gt;]
+</pre></div>
+</div>
+<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_26_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_26_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">new_x</span><span class="p">,</span> <span class="n">new_y</span><span class="p">):</span>
+    <span class="n">l</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mod2_part1_a.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;UTF8&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_poly3</span><span class="p">:</span>
+  <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+  <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta1&#39;</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+  <span class="n">beta2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta2&#39;</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+  <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s1">&#39;nu&#39;</span><span class="p">,</span><span class="mf">1.</span><span class="o">/</span><span class="mf">30.</span><span class="p">)</span>
+  <span class="n">epsilon</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfCauchy</span><span class="p">(</span><span class="s1">&#39;epsilon&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+  <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;mu&#39;</span><span class="p">,</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">beta1</span><span class="o">*</span><span class="n">new_x</span> <span class="o">+</span> <span class="n">beta2</span><span class="o">*</span><span class="n">new_x</span><span class="o">*</span><span class="n">new_x</span><span class="p">)</span>
+
+  <span class="n">y_pred_rob</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">StudentT</span><span class="p">(</span><span class="s1">&#39;y_pred_rob&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">new_y</span><span class="p">)</span>
+    
+  <span class="c1">#y_pred_rob = pm.Normal(&#39;y_pred_rob&#39;, mu=mu, sigma = epsilon, observed = new_y)</span>
+
+  <span class="n">trace_poly_rob</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [epsilon, nu, beta2, beta1, alpha]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [16000/16000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 9 seconds.
+The acceptance probability does not match the target. It is 0.7212908071912416, but should be close to 0.8. Try to increase the number of tuning steps.
+The number of effective samples is smaller than 10% for some parameters.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_poly_rob</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;alpha&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;alpha&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;beta1&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;beta1&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;beta2&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;beta2&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;nu&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;nu&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;epsilon&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;epsilon&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;mu&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;mu&#39;}&gt;]], dtype=object)
+</pre></div>
+</div>
+<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_30_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_30_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res3</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_poly_rob</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">res3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>          mean     sd  hdi_3%  hdi_97%  mcse_mean  mcse_sd  ess_bulk  \
+alpha    8.834  0.211   8.518    9.145      0.006    0.005    1249.0   
+beta1    0.499  0.041   0.435    0.563      0.001    0.001    4199.0   
+beta2   -0.130  0.015  -0.156   -0.105      0.000    0.000    1518.0   
+nu       1.928  5.441   0.229    3.206      0.138    0.098    1746.0   
+epsilon  0.258  0.255   0.030    0.513      0.009    0.006     647.0   
+mu[0]    3.085  0.318   2.541    3.592      0.005    0.003    3992.0   
+mu[1]    4.755  0.228   4.387    5.106      0.004    0.003    4915.0   
+mu[2]    6.165  0.193   5.864    6.456      0.005    0.003    3174.0   
+mu[3]    7.315  0.197   7.007    7.599      0.006    0.004    1672.0   
+mu[4]    8.204  0.209   7.873    8.501      0.006    0.004    1321.0   
+mu[5]    8.834  0.211   8.518    9.145      0.006    0.005    1249.0   
+mu[6]    9.203  0.198   8.895    9.489      0.006    0.004    1333.0   
+mu[7]    9.312  0.177   9.050    9.588      0.004    0.003    1541.0   
+mu[8]    9.161  0.171   8.915    9.451      0.003    0.002    3373.0   
+mu[9]    8.750  0.217   8.379    9.097      0.003    0.002    5685.0   
+mu[10]   8.078  0.323   7.456    8.561      0.006    0.005    3565.0   
+
+         ess_tail  r_hat  
+alpha      1477.0   1.00  
+beta1      2651.0   1.00  
+beta2      1755.0   1.00  
+nu         1677.0   1.00  
+epsilon     227.0   1.01  
+mu[0]      2682.0   1.00  
+mu[1]      3115.0   1.00  
+mu[2]      2051.0   1.00  
+mu[3]      1620.0   1.00  
+mu[4]      1513.0   1.00  
+mu[5]      1477.0   1.00  
+mu[6]      1521.0   1.00  
+mu[7]      1750.0   1.00  
+mu[8]      2374.0   1.00  
+mu[9]      2584.0   1.00  
+mu[10]     2568.0   1.00  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">new_x</span><span class="p">,</span><span class="n">new_y</span><span class="p">,</span><span class="s1">&#39;C0.&#39;</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">new_x</span><span class="p">,</span><span class="n">trace_poly_rob</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C2&#39;</span><span class="p">,</span><span class="n">hdi_prob</span><span class="o">=</span><span class="mf">.99</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_32_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_32_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_url</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/cfteach/brds/main/datasets/mod2_part1_a.csv&#39;</span> 
+
+<span class="n">download</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target_url</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+<span class="n">ans</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">download</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)))</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">ans</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">ans</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-5. -4. -3. -2. -1.  0.  1.  2.  3.  4.  5.]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3.20578291 4.54013427 6.1753007  1.5        8.36545909 9.0512373
+ 9.32320167 9.12941557 9.02906974 8.73327563 8.27209965]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_poly4</span><span class="p">:</span>
+  <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+  <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta1&#39;</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+  <span class="n">beta2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta2&#39;</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+  <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s1">&#39;nu&#39;</span><span class="p">,</span><span class="mf">1.</span><span class="o">/</span><span class="mf">30.</span><span class="p">)</span>
+  <span class="n">epsilon</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfCauchy</span><span class="p">(</span><span class="s1">&#39;epsilon&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+  <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;mu&#39;</span><span class="p">,</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">beta1</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">beta2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+
+  <span class="n">y_pred_rob</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">StudentT</span><span class="p">(</span><span class="s1">&#39;y_pred_rob&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    
+  <span class="c1">#y_pred_rob = pm.Normal(&#39;y_pred_rob&#39;, mu=mu, sigma = epsilon, observed = new_y)</span>
+
+  <span class="n">trace_poly_rob4</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [epsilon, nu, beta2, beta1, alpha]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [16000/16000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 9 seconds.
+The number of effective samples is smaller than 25% for some parameters.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_poly_rob4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;alpha&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;alpha&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;beta1&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;beta1&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;beta2&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;beta2&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;nu&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;nu&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;epsilon&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;epsilon&#39;}&gt;],
+       [&lt;AxesSubplot:title={&#39;center&#39;:&#39;mu&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;mu&#39;}&gt;]], dtype=object)
+</pre></div>
+</div>
+<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_37_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_37_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s1">&#39;C0.&#39;</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">trace_poly_rob4</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C2&#39;</span><span class="p">,</span><span class="n">hdi_prob</span><span class="o">=</span><span class="mf">.99</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/mod2_part2_Bayesian_Polynomial_Regression_38_1.png" src="_images/mod2_part2_Bayesian_Polynomial_Regression_38_1.png" />
 </div>
 </div>
 </section>
