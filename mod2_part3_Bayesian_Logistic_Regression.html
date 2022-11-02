@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Logistic Regression &#8212; Bayesian Reasoning in Data Science</title>
+    <title>Generalization to Bayesian Softmax Regression &#8212; Bayesian Reasoning in Data Science</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -118,28 +118,28 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Lectures
+  Lectures (Integrate these notes with Notebooks below)
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference external" href="https://docs.google.com/presentation/d/1uXlxQoqseWwwurtU-HSbqEz6EvE-r4ZSPorJU8kmFgw/edit?usp=sharing">
-   mod1 - Lecture 1 (9/1/2022)
+   mod1 - Course Structure; Real-world Bayesian applications; Causes and effects; True and Measured - Lecture 1 (9/1/2022)
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference external" href="https://docs.google.com/presentation/d/15rH1oqwgWOUzuWpCG2zTlYv70yoSK4-p96OxwmV6hy0/edit?usp=sharing">
-   mod1 - Lecture 2 (9/6/2022)
+   mod1 - Bayes Theorem; Exercises; Thinking Probabilistically - Lecture 2 (9/6/2022)
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference external" href="https://docs.google.com/presentation/d/1jqEu81sj2FgseCwhEHqaEnV3Fu4E3reJSgauZvthypQ/edit?usp=sharing">
-   mod1 - Lecture 6 and 7 (9/20 and 22/2022)
+   mod1 - Credible Intervals; ROPE; HDI - Lecture 6 and 7 (9/20 and 22/2022)
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference external" href="https://docs.google.com/presentation/d/1UyWJaK4Sdhf1GFufaV5KIb9VMqYalV-U_OenMjr0oo0/edit?usp=sharing">
-   mod2 - Lecture 10 and 11 (10/04 and 10/05)
+   mod2 - Bayesian Linear Regression - Lecture 10 and 11 (10/04 and 10/05)
   </a>
  </li>
 </ul>
@@ -484,8 +484,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#final-remarks-robust-logistic-regression-extra">
-   Final remarks: Robust Logistic Regression (extra)
+  <a class="reference internal nav-link" href="#final-remarks-robust-logistic-regression-extra-for-the-curious">
+   Final remarks: Robust Logistic Regression (extra, for the curious…)
   </a>
  </li>
 </ul>
@@ -497,7 +497,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Logistic Regression</h1>
+                <h1>Generalization to Bayesian Softmax Regression</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -523,8 +523,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#final-remarks-robust-logistic-regression-extra">
-   Final remarks: Robust Logistic Regression (extra)
+  <a class="reference internal nav-link" href="#final-remarks-robust-logistic-regression-extra-for-the-curious">
+   Final remarks: Robust Logistic Regression (extra, for the curious…)
   </a>
  </li>
 </ul>
@@ -537,8 +537,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="logistic-regression">
-<h1>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="generalization-to-bayesian-softmax-regression">
+<h1>Generalization to Bayesian Softmax Regression<a class="headerlink" href="#generalization-to-bayesian-softmax-regression" title="Permalink to this headline">#</a></h1>
 <p>Ref: Chap 4 of Mar18</p>
 <p><a class="reference external" href="https://cfteach.github.io/brds/referencesmd.html">https://cfteach.github.io/brds/referencesmd.html</a></p>
 <div class="cell docutils container">
@@ -682,7 +682,7 @@ title="Print to PDF"
        (ii) One solution when dealing with highly correlated variables is to remove one (or more than one) correlated variable.
     </p>
     <p  style="color: black">
-        (iii) Another option is scaling all non-binary varaibles to have a mean of 0, and then using:
+        (iii) Another option is scaling all non-binary variables to have a mean of 0, and then using:
     </p>    
     <center>
         $\beta \sim StudentT(0,\nu,sd)$
@@ -693,6 +693,7 @@ title="Print to PDF"
     </b>
     </p>
 </div>
+<p><span class="math notranslate nohighlight">\(\beta \sim StudentT(0,\nu,sd)\)</span></p>
 </section>
 <section id="recipe-2-dealing-with-unbalanced-classes">
 <h2>Recipe 2: Dealing with unbalanced classes<a class="headerlink" href="#recipe-2-dealing-with-unbalanced-classes" title="Permalink to this headline">#</a></h2>
@@ -798,7 +799,7 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;sepal_width&#39;)
 </pre></div>
 </div>
-<img alt="_images/mod2_part3_Bayesian_Logistic_Regression_12_2.png" src="_images/mod2_part3_Bayesian_Logistic_Regression_12_2.png" />
+<img alt="_images/mod2_part3_Bayesian_Logistic_Regression_13_2.png" src="_images/mod2_part3_Bayesian_Logistic_Regression_13_2.png" />
 </div>
 </div>
 <div class="alert alert-block alert-info" style="background-color: white; border: 2px solid; padding: 10px">
@@ -1286,9 +1287,16 @@ Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws 
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cmpd_df</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">compare</span><span class="p">({</span><span class="s1">&#39;model_s&#39;</span><span class="p">:</span><span class="n">idata_s</span><span class="p">,</span> <span class="s1">&#39;model_sf&#39;</span><span class="p">:</span> <span class="n">idata_sf</span><span class="p">},</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;BB-pseudo-BMA&#39;</span><span class="p">,</span> <span class="n">ic</span><span class="o">=</span><span class="s1">&#39;waic&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="final-remarks-robust-logistic-regression-extra">
-<h2>Final remarks: Robust Logistic Regression (extra)<a class="headerlink" href="#final-remarks-robust-logistic-regression-extra" title="Permalink to this headline">#</a></h2>
+<section id="final-remarks-robust-logistic-regression-extra-for-the-curious">
+<h2>Final remarks: Robust Logistic Regression (extra, for the curious…)<a class="headerlink" href="#final-remarks-robust-logistic-regression-extra-for-the-curious" title="Permalink to this headline">#</a></h2>
 <p>Let’s take the dataset for the species setosa and versicolor only.
 Let’s complicate the problem by assuming the presence of unusual seros and/or ones in our dataset.</p>
 <div class="cell docutils container">
@@ -1310,7 +1318,7 @@ Let’s complicate the problem by assuming the presence of unusual seros and/or 
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;sepal_length&#39;)
 </pre></div>
 </div>
-<img alt="_images/mod2_part3_Bayesian_Logistic_Regression_28_1.png" src="_images/mod2_part3_Bayesian_Logistic_Regression_28_1.png" />
+<img alt="_images/mod2_part3_Bayesian_Logistic_Regression_30_1.png" src="_images/mod2_part3_Bayesian_Logistic_Regression_30_1.png" />
 </div>
 </div>
 <p>We have some versicolor (category 1) with some unusually short sepal_length…</p>
@@ -1434,7 +1442,7 @@ There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
   Text(2.0, 0, &#39;7.4&#39;)])
 </pre></div>
 </div>
-<img alt="_images/mod2_part3_Bayesian_Logistic_Regression_31_1.png" src="_images/mod2_part3_Bayesian_Logistic_Regression_31_1.png" />
+<img alt="_images/mod2_part3_Bayesian_Logistic_Regression_33_1.png" src="_images/mod2_part3_Bayesian_Logistic_Regression_33_1.png" />
 </div>
 </div>
 </section>
