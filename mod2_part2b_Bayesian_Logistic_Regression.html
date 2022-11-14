@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="_static/wm_vertical_single_line_full_color.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Logistic Regression" href="mod2_part3_Bayesian_Logistic_Regression.html" />
+    <link rel="next" title="Generalization to Bayesian Softmax Regression" href="mod2_part3_Bayesian_Logistic_Regression.html" />
     <link rel="prev" title="Bayesian Polynomial Regression" href="mod2_part2_Bayesian_Polynomial_Regression.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -116,28 +116,28 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Lectures
+  Lectures (Integrate these notes with Notebooks below)
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference external" href="https://docs.google.com/presentation/d/1uXlxQoqseWwwurtU-HSbqEz6EvE-r4ZSPorJU8kmFgw/edit?usp=sharing">
-   mod1 - Lecture 1 (9/1/2022)
+   mod1 - Course Structure; Real-world Bayesian applications; Causes and effects; True and Measured - Lecture 1 (9/1/2022)
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference external" href="https://docs.google.com/presentation/d/15rH1oqwgWOUzuWpCG2zTlYv70yoSK4-p96OxwmV6hy0/edit?usp=sharing">
-   mod1 - Lecture 2 (9/6/2022)
+   mod1 - Bayes Theorem; Exercises; Thinking Probabilistically - Lecture 2 (9/6/2022)
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference external" href="https://docs.google.com/presentation/d/1jqEu81sj2FgseCwhEHqaEnV3Fu4E3reJSgauZvthypQ/edit?usp=sharing">
-   mod1 - Lecture 6 and 7 (9/20 and 22/2022)
+   mod1 - Credible Intervals; ROPE; HDI - Lecture 6 and 7 (9/20 and 22/2022)
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference external" href="https://docs.google.com/presentation/d/1UyWJaK4Sdhf1GFufaV5KIb9VMqYalV-U_OenMjr0oo0/edit?usp=sharing">
-   mod2 - Lecture 10 and 11 (10/04 and 10/05)
+   mod2 - Bayesian Linear Regression - Lecture 10 and 11 (10/04 and 10/05)
   </a>
  </li>
 </ul>
@@ -179,7 +179,12 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="mod2_part3_Bayesian_Logistic_Regression.html">
-   (mod2 - part3) Bayesian Logistic Regression
+   (mod2 - part3) Bayesian Softmax Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod3_part1_Gaussian_Processes.html">
+   (mod3 - part1) Intro to Gaussian Processes
   </a>
  </li>
 </ul>
@@ -484,6 +489,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-on-unseen-data">
+   Prediction on unseen data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#question-in-class-from-d-zhu-why-is-the-decision-boundary-linear">
    Question in class (from D. Zhu): why is the decision boundary linear?
   </a>
@@ -530,6 +540,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-on-unseen-data">
+   Prediction on unseen data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#question-in-class-from-d-zhu-why-is-the-decision-boundary-linear">
    Question in class (from D. Zhu): why is the decision boundary linear?
   </a>
@@ -553,6 +568,61 @@ title="Print to PDF"
 <h1>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">#</a></h1>
 <p>Ref: Chap 4 of Mar18</p>
 <p><a class="reference external" href="https://cfteach.github.io/brds/referencesmd.html">https://cfteach.github.io/brds/referencesmd.html</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install pymc3 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/
+Collecting pymc3
+  Downloading pymc3-3.11.5-py3-none-any.whl (872 kB)
+     |████████████████████████████████| 872 kB 12.8 MB/s 
+?25hRequirement already satisfied: numpy&lt;1.22.2,&gt;=1.15.0 in /usr/local/lib/python3.7/dist-packages (from pymc3) (1.21.6)
+Requirement already satisfied: dill in /usr/local/lib/python3.7/dist-packages (from pymc3) (0.3.6)
+Collecting semver&gt;=2.13.0
+  Downloading semver-2.13.0-py2.py3-none-any.whl (12 kB)
+Requirement already satisfied: arviz&gt;=0.11.0 in /usr/local/lib/python3.7/dist-packages (from pymc3) (0.12.1)
+Requirement already satisfied: cachetools&gt;=4.2.1 in /usr/local/lib/python3.7/dist-packages (from pymc3) (5.2.0)
+Requirement already satisfied: fastprogress&gt;=0.2.0 in /usr/local/lib/python3.7/dist-packages (from pymc3) (1.0.3)
+Collecting theano-pymc==1.1.2
+  Downloading Theano-PyMC-1.1.2.tar.gz (1.8 MB)
+     |████████████████████████████████| 1.8 MB 30.9 MB/s 
+?25hRequirement already satisfied: typing-extensions&gt;=3.7.4 in /usr/local/lib/python3.7/dist-packages (from pymc3) (4.1.1)
+Collecting deprecat
+  Downloading deprecat-2.1.1-py2.py3-none-any.whl (9.8 kB)
+Requirement already satisfied: patsy&gt;=0.5.1 in /usr/local/lib/python3.7/dist-packages (from pymc3) (0.5.3)
+Requirement already satisfied: pandas&gt;=0.24.0 in /usr/local/lib/python3.7/dist-packages (from pymc3) (1.3.5)
+Requirement already satisfied: scipy&lt;1.8.0,&gt;=1.7.3 in /usr/local/lib/python3.7/dist-packages (from pymc3) (1.7.3)
+Requirement already satisfied: filelock in /usr/local/lib/python3.7/dist-packages (from theano-pymc==1.1.2-&gt;pymc3) (3.8.0)
+Requirement already satisfied: setuptools&gt;=38.4 in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (57.4.0)
+Requirement already satisfied: xarray&gt;=0.16.1 in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (0.20.2)
+Requirement already satisfied: xarray-einstats&gt;=0.2 in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (0.2.2)
+Requirement already satisfied: matplotlib&gt;=3.0 in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (3.2.2)
+Requirement already satisfied: netcdf4 in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (1.6.1)
+Requirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (21.3)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (1.4.4)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (3.0.9)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (2.8.2)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.7/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (0.11.0)
+Requirement already satisfied: pytz&gt;=2017.3 in /usr/local/lib/python3.7/dist-packages (from pandas&gt;=0.24.0-&gt;pymc3) (2022.6)
+Requirement already satisfied: six in /usr/local/lib/python3.7/dist-packages (from patsy&gt;=0.5.1-&gt;pymc3) (1.15.0)
+Requirement already satisfied: importlib-metadata in /usr/local/lib/python3.7/dist-packages (from xarray&gt;=0.16.1-&gt;arviz&gt;=0.11.0-&gt;pymc3) (4.13.0)
+Requirement already satisfied: wrapt&lt;2,&gt;=1.10 in /usr/local/lib/python3.7/dist-packages (from deprecat-&gt;pymc3) (1.14.1)
+Requirement already satisfied: zipp&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata-&gt;xarray&gt;=0.16.1-&gt;arviz&gt;=0.11.0-&gt;pymc3) (3.10.0)
+Requirement already satisfied: cftime in /usr/local/lib/python3.7/dist-packages (from netcdf4-&gt;arviz&gt;=0.11.0-&gt;pymc3) (1.6.2)
+Building wheels for collected packages: theano-pymc
+  Building wheel for theano-pymc (setup.py) ... ?25l?25hdone
+  Created wheel for theano-pymc: filename=Theano_PyMC-1.1.2-py3-none-any.whl size=1529964 sha256=defebffb659cb5ed16c8f722ef3988e92655cced11359b7b4bebf871f2b9ba9f
+  Stored in directory: /root/.cache/pip/wheels/f3/af/8c/5dd7553522d74c52a7813806fc7ee1a9caa20a3f7c8fd850d5
+Successfully built theano-pymc
+Installing collected packages: theano-pymc, semver, deprecat, pymc3
+Successfully installed deprecat-2.1.1 pymc3-3.11.5 semver-2.13.0 theano-pymc-1.1.2
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
@@ -590,7 +660,7 @@ title="Print to PDF"
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;logistic(z)&#39;)
 </pre></div>
 </div>
-<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_4_1.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_4_1.png" />
+<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_5_1.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_5_1.png" />
 </div>
 </div>
 <section id="the-iris-dataset">
@@ -607,7 +677,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
+<div class="output text_html">
+  <div id="df-cbb84b4d-af78-41cf-b614-644a174ecf6a">
+    <div class="colab-df-container">
+      <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -675,7 +748,83 @@ title="Print to PDF"
     </tr>
   </tbody>
 </table>
-</div></div></div>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-cbb84b4d-af78-41cf-b614-644a174ecf6a')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-cbb84b4d-af78-41cf-b614-644a174ecf6a button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-cbb84b4d-af78-41cf-b614-644a174ecf6a');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -686,10 +835,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;species&#39;, ylabel=&#39;sepal_length&#39;&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f5290a34350&gt;
 </pre></div>
 </div>
-<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_7_1.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_7_1.png" />
+<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_8_1.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_8_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -699,14 +848,14 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/seaborn/axisgrid.py:88: UserWarning: This figure was using constrained_layout, but that is incompatible with subplots_adjust and/or tight_layout; disabling constrained_layout.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/seaborn/axisgrid.py:88: UserWarning: This figure was using constrained_layout==True, but that is incompatible with subplots_adjust and or tight_layout: setting constrained_layout==False. 
   self._figure.tight_layout(*args, **kwargs)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x16b6b20d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x7f52909aeb10&gt;
 </pre></div>
 </div>
-<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_8_2.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_8_2.png" />
+<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_9_2.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_9_2.png" />
 </div>
 </div>
 <section id="the-logistic-model-applied-to-the-iris-dataset">
@@ -725,7 +874,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
+<div class="output text_html">
+  <div id="df-d4c1490a-bd88-4a16-86c0-7e76113f4fb3">
+    <div class="colab-df-container">
+      <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -842,7 +994,83 @@ title="Print to PDF"
   </tbody>
 </table>
 <p>100 rows × 5 columns</p>
-</div></div></div>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-d4c1490a-bd88-4a16-86c0-7e76113f4fb3')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-d4c1490a-bd88-4a16-86c0-7e76113f4fb3 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-d4c1490a-bd88-4a16-86c0-7e76113f4fb3');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -910,12 +1138,6 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [β, α]
-</pre></div>
-</div>
 <div class="output text_html">
 <style>
     /* Turns off some styling */
@@ -934,21 +1156,31 @@ NUTS: [β, α]
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
+  <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [4000/4000 00:05&lt;00:00 Sampling chain 0, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 9 seconds.
-</pre></div>
+</div><div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [4000/4000 00:02&lt;00:00 Sampling chain 1, 0 divergences]
 </div>
-</div>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -960,7 +1192,10 @@ Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
+<div class="output text_html">
+  <div id="df-5f0e0fd3-6ba3-4eec-92f2-d15eb5f77b2f">
+    <div class="colab-df-container">
+      <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -992,62 +1227,62 @@ Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws 
   <tbody>
     <tr>
       <th>α</th>
-      <td>0.311</td>
-      <td>0.337</td>
-      <td>-0.303</td>
-      <td>0.953</td>
+      <td>0.309</td>
+      <td>0.351</td>
+      <td>-0.345</td>
+      <td>0.955</td>
+      <td>0.006</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>4813.0</td>
-      <td>4181.0</td>
+      <td>2972.0</td>
+      <td>2475.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>β</th>
-      <td>5.385</td>
-      <td>1.039</td>
-      <td>3.520</td>
-      <td>7.397</td>
-      <td>0.016</td>
-      <td>0.011</td>
-      <td>4358.0</td>
-      <td>4898.0</td>
+      <td>5.409</td>
+      <td>1.047</td>
+      <td>3.469</td>
+      <td>7.348</td>
+      <td>0.021</td>
+      <td>0.015</td>
+      <td>2655.0</td>
+      <td>2333.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>θ[0]</th>
-      <td>0.165</td>
-      <td>0.058</td>
-      <td>0.059</td>
-      <td>0.270</td>
+      <td>0.164</td>
+      <td>0.060</td>
+      <td>0.060</td>
+      <td>0.277</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>5587.0</td>
-      <td>5727.0</td>
+      <td>3071.0</td>
+      <td>2506.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>θ[1]</th>
       <td>0.068</td>
-      <td>0.036</td>
-      <td>0.010</td>
-      <td>0.133</td>
+      <td>0.037</td>
+      <td>0.011</td>
+      <td>0.135</td>
+      <td>0.001</td>
       <td>0.000</td>
-      <td>0.000</td>
-      <td>5327.0</td>
-      <td>5439.0</td>
+      <td>2948.0</td>
+      <td>2406.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>θ[2]</th>
       <td>0.027</td>
-      <td>0.020</td>
+      <td>0.021</td>
       <td>0.001</td>
-      <td>0.063</td>
+      <td>0.064</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>5127.0</td>
-      <td>5376.0</td>
+      <td>2867.0</td>
+      <td>2277.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1064,68 +1299,144 @@ Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws 
     </tr>
     <tr>
       <th>θ[96]</th>
-      <td>0.814</td>
-      <td>0.066</td>
-      <td>0.693</td>
+      <td>0.815</td>
+      <td>0.067</td>
+      <td>0.689</td>
       <td>0.930</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>4311.0</td>
-      <td>4487.0</td>
+      <td>2727.0</td>
+      <td>2186.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>θ[97]</th>
       <td>0.980</td>
-      <td>0.017</td>
-      <td>0.950</td>
-      <td>1.000</td>
+      <td>0.018</td>
+      <td>0.947</td>
+      <td>0.999</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>4107.0</td>
-      <td>4545.0</td>
+      <td>2609.0</td>
+      <td>2140.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>θ[98]</th>
-      <td>0.165</td>
-      <td>0.058</td>
-      <td>0.059</td>
-      <td>0.270</td>
+      <td>0.164</td>
+      <td>0.060</td>
+      <td>0.060</td>
+      <td>0.277</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>5587.0</td>
-      <td>5727.0</td>
+      <td>3071.0</td>
+      <td>2506.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>θ[99]</th>
-      <td>0.814</td>
-      <td>0.066</td>
-      <td>0.693</td>
+      <td>0.815</td>
+      <td>0.067</td>
+      <td>0.689</td>
       <td>0.930</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>4311.0</td>
-      <td>4487.0</td>
+      <td>2727.0</td>
+      <td>2186.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>bd</th>
-      <td>-0.057</td>
-      <td>0.062</td>
-      <td>-0.173</td>
-      <td>0.060</td>
+      <td>-0.056</td>
+      <td>0.065</td>
+      <td>-0.170</td>
+      <td>0.070</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>5038.0</td>
-      <td>5096.0</td>
+      <td>3016.0</td>
+      <td>2591.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
 </table>
 <p>103 rows × 9 columns</p>
-</div></div></div>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-5f0e0fd3-6ba3-4eec-92f2-d15eb5f77b2f')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-5f0e0fd3-6ba3-4eec-92f2-d15eb5f77b2f button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-5f0e0fd3-6ba3-4eec-92f2-d15eb5f77b2f');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1135,7 +1446,7 @@ Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4, 2000, 100)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 2000, 100)
 </pre></div>
 </div>
 </div>
@@ -1174,25 +1485,25 @@ Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&lt;matplotlib.axis.XTick at 0x28da37220&gt;,
-  &lt;matplotlib.axis.XTick at 0x28da37ca0&gt;,
-  &lt;matplotlib.axis.XTick at 0x28d99fb80&gt;,
-  &lt;matplotlib.axis.XTick at 0x28d931c10&gt;,
-  &lt;matplotlib.axis.XTick at 0x28d938df0&gt;,
-  &lt;matplotlib.axis.XTick at 0x28d9389a0&gt;,
-  &lt;matplotlib.axis.XTick at 0x28d9040d0&gt;,
-  &lt;matplotlib.axis.XTick at 0x28d931fa0&gt;],
- [Text(-1.5, 0, &#39;4.0&#39;),
-  Text(-1.0, 0, &#39;4.5&#39;),
-  Text(-0.5, 0, &#39;5.0&#39;),
-  Text(0.0, 0, &#39;5.5&#39;),
-  Text(0.5, 0, &#39;6.0&#39;),
-  Text(1.0, 0, &#39;6.5&#39;),
-  Text(1.5, 0, &#39;7.0&#39;),
-  Text(2.0, 0, &#39;7.5&#39;)])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&lt;matplotlib.axis.XTick at 0x7f5280db0250&gt;,
+  &lt;matplotlib.axis.XTick at 0x7f5280db0090&gt;,
+  &lt;matplotlib.axis.XTick at 0x7f5280e10fd0&gt;,
+  &lt;matplotlib.axis.XTick at 0x7f5280d0c5d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x7f5280d0cdd0&gt;,
+  &lt;matplotlib.axis.XTick at 0x7f5280d0cd50&gt;,
+  &lt;matplotlib.axis.XTick at 0x7f5280d0c590&gt;,
+  &lt;matplotlib.axis.XTick at 0x7f5280d11810&gt;],
+ [Text(0, 0, &#39;4.0&#39;),
+  Text(0, 0, &#39;4.5&#39;),
+  Text(0, 0, &#39;5.0&#39;),
+  Text(0, 0, &#39;5.5&#39;),
+  Text(0, 0, &#39;6.0&#39;),
+  Text(0, 0, &#39;6.5&#39;),
+  Text(0, 0, &#39;7.0&#39;),
+  Text(0, 0, &#39;7.5&#39;)])
 </pre></div>
 </div>
-<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_18_1.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_18_1.png" />
+<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_19_1.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_19_1.png" />
 </div>
 </div>
 </section>
@@ -1211,28 +1522,40 @@ Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x_1</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_1</span><span class="p">))</span>
+<span class="n">t_l</span> <span class="o">=</span> <span class="n">x_1</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">t_l</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">t_l</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(100, 2) &lt;class &#39;numpy.ndarray&#39;&gt;
+(100, 2) &lt;class &#39;list&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_1</span><span class="p">:</span> 
     <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;α&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> 
     <span class="n">β</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;β&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">x_n</span><span class="p">))</span> 
+
+    <span class="n">x__1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">x_1</span><span class="p">)</span>
+    <span class="n">y__1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">y_1</span><span class="p">)</span>
      
-    <span class="n">μ</span> <span class="o">=</span> <span class="n">α</span> <span class="o">+</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_1</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">α</span> <span class="o">+</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x__1</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
     
     <span class="n">θ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">μ</span><span class="p">)))</span> 
-    <span class="n">bd</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;bd&#39;</span><span class="p">,</span> <span class="o">-</span><span class="n">α</span><span class="o">/</span><span class="n">β</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">β</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">β</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">bd</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;bd&#39;</span><span class="p">,</span> <span class="o">-</span><span class="n">α</span><span class="o">/</span><span class="n">β</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">β</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">β</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x__1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
      
-    <span class="n">yl</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;yl&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">θ</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_1</span><span class="p">)</span> 
+    <span class="n">yl</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;yl&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">θ</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y__1</span><span class="p">)</span> 
  
     <span class="n">trace_1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [β, α]
-</pre></div>
-</div>
 <div class="output text_html">
 <style>
     /* Turns off some styling */
@@ -1251,21 +1574,31 @@ NUTS: [β, α]
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 00:09&lt;00:00 Sampling 4 chains, 0 divergences]
+  <progress value='6000' class='' max='6000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [6000/6000 00:29&lt;00:00 Sampling chain 0, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/cfanelli/Desktop/teaching/BRDS/jupynb_env_new/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 4_000 tune and 2_000 draw iterations (16_000 + 8_000 draws total) took 17 seconds.
-</pre></div>
+</div><div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='6000' class='' max='6000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [6000/6000 00:29&lt;00:00 Sampling chain 1, 0 divergences]
 </div>
-</div>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1275,7 +1608,7 @@ Sampling 4 chains for 4_000 tune and 2_000 draw iterations (16_000 + 8_000 draws
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_22_0.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_22_0.png" />
+<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_24_0.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_24_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1305,7 +1638,92 @@ Sampling 4 chains for 4_000 tune and 2_000 draw iterations (16_000 + 8_000 draws
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;sepal_width&#39;)
 </pre></div>
 </div>
-<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_23_1.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_23_1.png" />
+<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_25_1.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_25_1.png" />
+</div>
+</div>
+</section>
+<section id="prediction-on-unseen-data">
+<h2>Prediction on unseen data<a class="headerlink" href="#prediction-on-unseen-data" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x_1</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_1</span><span class="p">))</span>
+
+<span class="n">udata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(((</span><span class="mf">5.2</span><span class="p">,</span><span class="mf">2.0</span><span class="p">),(</span><span class="mf">7.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">),(</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">5.0</span><span class="p">),(</span><span class="mf">5.5</span><span class="p">,</span><span class="mf">3.2</span><span class="p">)))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">udata</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">udata</span><span class="p">))</span>
+
+
+<span class="c1">#dic = {&#39;x_1&#39;: udata[:,0].tolist(), &#39;sepal_width&#39;: udata[:,1].tolist()}</span>
+<span class="n">tmp_dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">udata</span><span class="p">}</span>
+<span class="c1">#a=udata[:,0].tolist()</span>
+<span class="c1">#print(type(a))</span>
+<span class="c1">#print(a)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(100, 2) &lt;class &#39;numpy.ndarray&#39;&gt;
+(4, 2) &lt;class &#39;numpy.ndarray&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">model_1</span><span class="p">:</span>
+  <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">tmp_dic</span><span class="p">)</span>
+  <span class="n">y_test</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_1</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">model_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/pymc3/sampling.py:1709: UserWarning: samples parameter is smaller than nchains times ndraws, some draws and/or chains may not be represented in the returned posterior predictive sample
+  &quot;samples parameter is smaller than nchains times ndraws, some draws &quot;
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='200' class='' max='200' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [200/200 00:04&lt;00:00]
+</div>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">y_test</span><span class="p">[</span><span class="s1">&#39;yl&#39;</span><span class="p">]),</span> <span class="nb">type</span><span class="p">(</span><span class="n">y_test</span><span class="p">[</span><span class="s1">&#39;yl&#39;</span><span class="p">]))</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">[</span><span class="s1">&#39;yl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1">#res = np.round(y_test[&#39;yl&#39;].mean(axis=0), decimals=0).astype(int)</span>
+
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">udata</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;sepal_length, sepal_width, category: </span><span class="si">{:}</span><span class="s1">, </span><span class="si">{:}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">udata</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(200, 4) &lt;class &#39;numpy.ndarray&#39;&gt;
+sepal_length, sepal_width, category: [5.2 2. ], 0.99
+sepal_length, sepal_width, category: [7. 2.], 1.0
+sepal_length, sepal_width, category: [4.5 5. ], 0.0
+sepal_length, sepal_width, category: [5.5 3.2], 0.425
+</pre></div>
+</div>
 </div>
 </div>
 </section>
@@ -1397,7 +1815,7 @@ Sampling 4 chains for 4_000 tune and 2_000 draw iterations (16_000 + 8_000 draws
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;sepal_width&#39;)
 </pre></div>
 </div>
-<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_26_1.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_26_1.png" />
+<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_32_1.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_32_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1453,7 +1871,7 @@ Sampling 4 chains for 4_000 tune and 2_000 draw iterations (16_000 + 8_000 draws
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_29_0.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_29_0.png" />
+<img alt="_images/mod2_part2b_Bayesian_Logistic_Regression_35_0.png" src="_images/mod2_part2b_Bayesian_Logistic_Regression_35_0.png" />
 </div>
 </div>
 </section>
@@ -1496,7 +1914,7 @@ Sampling 4 chains for 4_000 tune and 2_000 draw iterations (16_000 + 8_000 draws
     <a class='right-next' id="next-link" href="mod2_part3_Bayesian_Logistic_Regression.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Logistic Regression</p>
+        <p class="prev-next-title">Generalization to Bayesian Softmax Regression</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
