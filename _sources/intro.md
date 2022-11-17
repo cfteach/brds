@@ -1,6 +1,6 @@
 # Bayesian Reasoning in Data Science
 
-(last update: Nov 10/2022)
+(last update: Nov 16/2022)
 
 <!-- It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information. -->
 
