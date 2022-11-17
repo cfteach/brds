@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def f(x, noise_level=0.1):
-    return np.sin(5 * x[0]) * (1 - np.tanh(x[0] ** 2))\
-           + np.random.randn() * noise_level
+def f(x, noise_level=0.):
+    print("noise_level: ", noise_level)
+    return np.sin(5 * x[0]) * (1 - np.tanh(x[0] ** 2))+ np.random.randn() * noise_level
 
 def print_fun(func, noise_level):
     # Plot f(x) + contours
