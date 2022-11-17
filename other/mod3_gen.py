@@ -11,6 +11,10 @@ def f_2(x, noise_level=0.):
 def f_3(x, noise_level=0.):
     return -x[0]**2 + x[0]**3
 
+def beale(x, noise_level=0.):
+    return np.power(1.5-x[0]+x[0]*x[1],2)+np.power(2.25-x[0]+x[0]*x[1]**2,2)\
+    +np.power(2.625-x[0]+x[0]*x[1]**3,2)
+
 def print_fun(func, noise_level):
     # Plot f(x) + contours
 
