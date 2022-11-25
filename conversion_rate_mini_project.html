@@ -55,12 +55,11 @@
         Conversion Rates of Websites
       </py-title>
       <center>
-      <p>by: R. Gupta, CF (<a href="https://cfteach.github.io/brds/intro.html"><b>BRDS course</b></a>, 2022) </p><br>
-
+      <p>by: R. Gupta, CF (<a href="https://cfteach.github.io/brds/intro.html"><b>Bayesian Reasoning in Data Science</b></a>, AY 2022) </p><br>
 
       <br>
       <br>
-      <b> Who can use this script? Anyone running an A/B testing on website designs</b>
+      <b> Who can use this script? Anyone running an A/B testing on website designs (conversion rates), or similar problems.</b>
       <br>
       <br>
       </center>
@@ -86,13 +85,21 @@
 
       <py-box widths="1/7;2/7;1/7;2/7;1/7">
 
-      <py-text>alpha par (prior)=</py-text>
+      <py-text>alpha par (prior A)=</py-text>
 
-      <py-inputbox id="input_box_alpha">10</py-inputbox>
+      <py-inputbox id="input_box_alphaA">10</py-inputbox>
 
-      <py-text>beta par (prior)=</py-text>
+      <py-text>beta par (prior A)=</py-text>
 
-      <py-inputbox id="input_box_beta">10</py-inputbox>
+      <py-inputbox id="input_box_betaA">10</py-inputbox>
+
+      <py-text>alpha par (prior B)=</py-text>
+
+      <py-inputbox id="input_box_alphaB">10</py-inputbox>
+
+      <py-text>beta par (prior B)=</py-text>
+
+      <py-inputbox id="input_box_betaB">10</py-inputbox>
 
       <py-text>Visitors to A=</py-text>
 
@@ -119,15 +126,26 @@ from pyodide import create_proxy
 
 def on_click(evt):
 
-    pr_alpha = Element('input_box_alpha').element.value
-    if pr_alpha == "":
+    pr_alphaA = Element('input_box_alphaA').element.value
+    if pr_alphaA == "":
 
-        pr_alpha = 1
+        pr_alphaA = 1
 
-    pr_beta = Element('input_box_beta').element.value
-    if pr_beta == "":
+    pr_betaA = Element('input_box_betaA').element.value
+    if pr_betaA == "":
 
-        pr_beta = 1
+        pr_betaA = 1
+
+    pr_alphaB = Element('input_box_alphaB').element.value
+    if pr_alphaB == "":
+
+        pr_alphaB = 1
+
+    pr_betaB = Element('input_box_betaB').element.value
+    if pr_betaB == "":
+
+        pr_betaB = 1
+
 
     vA = Element('input_box_vA').element.value
 
@@ -154,7 +172,7 @@ def on_click(evt):
 
         cB = 12
 
-    run_model(pr_alpha,pr_beta,vA,vB,cA,cB)
+    run_model(pr_alphaA,pr_betaA,pr_alphaB,pr_betaB,vA,vB,cA,cB)
 
 
       </py-button>
@@ -165,14 +183,14 @@ def on_click(evt):
     <br><br><br>
     <p>Made using <a href="https://pyscript.net">PyScript</a>, <a href="https://pymc.io">PyMC</a>, <a href="https://https://arviz-devs.github.io/arviz/index.html">Arviz</a>, <a href="https://docs.bokeh.org/en/latest/index.html">Bokeh</a>, <a href="https://scipy.org/">SciPy</a>.</p>
     <br>
-    If you want to use a vague prior, leave the parameters of the <a href="https://en.wikipedia.org/wiki/Beta_distribution">Beta Distribution</a> to their default values (1,1).
+    If you want to use a vague prior, leave the parameters of the <a href="https://en.wikipedia.org/wiki/Beta_distribution"><b>Beta Distributions</b></a> for the design A and B to their default values, i.e. (1,1) for both.
+    <br>
+    Otherwise, tune the parameters in such a way to represent your prior belief on designs A and B.
     <br>
     Sampling will take a couple of seconds.
     <br>
     The resulting posterior belief into what
-    the increase in conversion rate will be will appear below:
-    <br>
-    <br>
+    the increase in conversion rate will be will appear below...
     </center>
 
     <center>
@@ -246,7 +264,7 @@ def run_dummy(vA, vB, cA, cB):
     Element("out-vB").element.innerHTML = vB
 
 
-def run_model(pr_alpha, pr_beta, vA, vB, cA, cB):
+def run_model(pr_alphaA, pr_betaA, pr_alphaB, pr_betaB, vA, vB, cA, cB):
 
     visitors_to_A = int(vA)
     visitors_to_B = int(vB)
@@ -254,14 +272,16 @@ def run_model(pr_alpha, pr_beta, vA, vB, cA, cB):
     conversions_from_A = int(cA)
     conversions_from_B = int(cB)
 
-    alpha_prior = int(pr_alpha)
-    beta_prior = int(pr_beta)
+    alpha_priorA = int(pr_alphaA)
+    beta_priorA = int(pr_betaA)
+    alpha_priorB = int(pr_alphaB)
+    beta_priorB = int(pr_betaB)
 
     samples = 30000
 
 
-    posterior_A = stats.beta(alpha_prior+conversions_from_A,beta_prior+visitors_to_A-conversions_from_A)
-    posterior_B = stats.beta(beta_prior+conversions_from_B,beta_prior+visitors_to_B-conversions_from_B)
+    posterior_A = stats.beta(alpha_priorA+conversions_from_A,beta_priorA+visitors_to_A-conversions_from_A)
+    posterior_B = stats.beta(alpha_priorB+conversions_from_B,beta_priorB+visitors_to_B-conversions_from_B)
 
 
     samples_posterior_A = posterior_A.rvs(samples)
@@ -271,11 +291,11 @@ def run_model(pr_alpha, pr_beta, vA, vB, cA, cB):
     posterior_rel_increase = np.divide(samples_diff,samples_posterior_B)
     posterior_better = samples_diff
 
-    res_10 = (posterior_rel_increase>0.1).mean()
-    res_20 = (posterior_rel_increase>0.2).mean()
-    res_50 = (posterior_rel_increase>0.5).mean()
+    res_10 = np.round((posterior_rel_increase>0.1).mean(),3)
+    res_20 = np.round((posterior_rel_increase>0.2).mean(),3)
+    res_50 = np.round((posterior_rel_increase>0.5).mean(),3)
 
-    A_betterthan_B = (posterior_better>0.).mean()
+    A_betterthan_B = np.round((posterior_better>0.).mean(),3)
 
 
     #Element("out-vA").element.innerHTML = vA
@@ -306,15 +326,28 @@ def run_model(pr_alpha, pr_beta, vA, vB, cA, cB):
 
     #--- prior
     f_pr = plt.figure()
-    f_pr.set_figwidth(4)
+    ax = plt.subplot(121)
+    f_pr.set_figwidth(5)
     f_pr.set_figheight(2)
     x = np.linspace(0, 1, 100)
-    y = stats.beta(alpha_prior, beta_prior).pdf(x)
-    plt.plot(x, y,label="prior")
-    plt.xlabel('probability')
-    plt.ylabel('density (prior)')
+    y = stats.beta(alpha_priorA, beta_priorA).pdf(x)
+    plt.plot(x, y,label="prior A")
+    #plt.xlabel('probability')
+    #plt.ylabel('density (prior)')
     plt.legend(loc="upper right")
+
+    ax = plt.subplot(122)
+    f_pr.set_figwidth(5)
+    f_pr.set_figheight(2)
+    x = np.linspace(0, 1, 100)
+    y = stats.beta(alpha_priorB, beta_priorB).pdf(x)
+    plt.plot(x, y,label="prior B")
+    #plt.xlabel('probability')
+    #plt.ylabel('density (prior)')
+    plt.legend(loc="upper right")
+
     pyscript.write("myplot1",f_pr)
+
 
 
     #--- histogram of posteriors
@@ -352,8 +385,8 @@ def run_model(pr_alpha, pr_beta, vA, vB, cA, cB):
 
 
 
-pr_alpha = Element('input_box_alpha').element.value
-pr_beta = Element('input_box_beta').element.value
+pr_alphaA = Element('input_box_alphaA').element.value
+pr_betaA = Element('input_box_betaA').element.value
 
 vA = Element('input_box_vA').element.value
 vB = Element('input_box_vB').element.value
@@ -371,13 +404,21 @@ cB = Element('input_box_cB').element.value
 
         window.addEventListener('load', function() {
 
-            let input_box_alpha = document.querySelector("#input_box_alpha")
+            let input_box_alphaA = document.querySelector("#input_box_alphaA")
 
-            input_box_alpha.value = "1"
+            input_box_alphaA.value = "1"
 
-            let input_box_beta = document.querySelector("#input_box_beta")
+            let input_box_betaA = document.querySelector("#input_box_betaA")
 
-            input_box_beta.value = "1"
+            input_box_betaA.value = "1"
+
+            let input_box_alphaB = document.querySelector("#input_box_alphaB")
+
+            input_box_alphaB.value = "1"
+
+            let input_box_betaB = document.querySelector("#input_box_betaB")
+
+            input_box_betaB.value = "1"
 
             let input_box_vA = document.querySelector("#input_box_vA")
 
