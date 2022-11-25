@@ -1,0 +1,467 @@
+<!DOCTYPE html><head>
+
+    <title>Bayesian A/B Testing</title>
+
+    <meta charset="iso-8859-1">
+
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.2.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.4.2.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.2.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.2.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-2.4.2.min.js"></script>
+
+
+
+    <script type="text/javascript">
+
+        Bokeh.set_log_level("info");
+
+    </script>
+
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    </head>
+
+    <body>
+
+      <py-env>
+
+      - bokeh
+
+      - numpy
+
+      - scipy
+
+      - matplotlib
+
+
+
+      </py-env>
+
+
+      <py-title> Bayesian A/B testing
+      </py-title>
+      <center>
+      <p> <b> Examples of applications: Conversion Rates of Websites or Control/Treatment in Clinical Trials.
+      </b> </p>
+      </center>
+      <br>
+      <center>
+      <p>by: R. Gupta, CF (<a href="https://cfteach.github.io/brds/intro.html"><b>Bayesian Reasoning in Data Science</b></a>, AY 2022) </p><br>
+
+      <br>
+      <br>
+      <b> Who can use this script? </b>
+      <br>
+      <br>
+      <b> Anyone running an A/B testing like website designs (conversion rates)</b>
+      <br>
+      </center>
+      <br>
+      <center>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/A-B_testing_example.png" alt="comparing different web page solutions"  width="600">
+      <br>
+      <br>
+      <b> or similar problems like <a href="https://sphweb.bumc.bu.edu/otlt/MPH-Modules/EP/EP713_ClinicalTrials/">clinical trials</a> with treatment and control groups. </b>
+      <br>
+      <img src="https://sphweb.bumc.bu.edu/otlt/MPH-Modules/EP/EP713_ClinicalTrials/RCT%20Overview%20Cartoon.png" alt="comparing control and treatment groups"  width="600">
+      <br>
+      <br>
+      <b>App Description:</b>
+      <br>
+      This webapp runs probabilistic programming. It utilizes <a href="https://pyscript.net/">PyScript</a>, which allows to run this script directly on your browser!
+      <br>
+      <br>
+      It strongly relies on Lectures 1, 21 from the <a href="https://cfteach.github.io/brds/intro.html"><b>Bayesian Reasoning in Data Science course</b></a>
+      <br>
+      In what follows we will refer to the website design problem:
+      <br>
+      B is the standard design (or control group for a standard treatment), and A is the new design (or treatment group in a clinical trial).
+      </center>
+
+
+      <!--
+      <pre><code class="python">
+
+      Relies on
+
+      </pre>
+      <-->
+
+      <br><br><br>
+
+      <py-box widths="1/7;2/7;1/7;2/7;1/7">
+
+      <py-text>alpha par (prior A)=</py-text>
+
+      <py-inputbox id="input_box_alphaA">10</py-inputbox>
+
+      <py-text>beta par (prior A)=</py-text>
+
+      <py-inputbox id="input_box_betaA">10</py-inputbox>
+
+      <py-text>alpha par (prior B)=</py-text>
+
+      <py-inputbox id="input_box_alphaB">10</py-inputbox>
+
+      <py-text>beta par (prior B)=</py-text>
+
+      <py-inputbox id="input_box_betaB">10</py-inputbox>
+
+      <py-text>Visitors to A=</py-text>
+
+      <py-inputbox id="input_box_vA">10</py-inputbox>
+
+      <py-text>Conversions from A=</py-text>
+
+      <py-inputbox id="input_box_cA">5</py-inputbox>
+
+      <py-text>Visitors to B=</py-text>
+
+      <py-inputbox id="input_box_vB">10</py-inputbox>
+
+      <py-text>Conversions from B=</py-text>
+
+      <py-inputbox id="input_box_cB">5</py-inputbox>
+
+      <py-button id="sample-btn" label="Sample!">
+
+
+from pyodide import create_proxy
+
+@create_proxy
+
+def on_click(evt):
+
+    pr_alphaA = Element('input_box_alphaA').element.value
+    if pr_alphaA == "":
+
+        pr_alphaA = 1
+
+    pr_betaA = Element('input_box_betaA').element.value
+    if pr_betaA == "":
+
+        pr_betaA = 1
+
+    pr_alphaB = Element('input_box_alphaB').element.value
+    if pr_alphaB == "":
+
+        pr_alphaB = 1
+
+    pr_betaB = Element('input_box_betaB').element.value
+    if pr_betaB == "":
+
+        pr_betaB = 1
+
+
+    vA = Element('input_box_vA').element.value
+
+    if vA == "":
+
+        vA = 127
+
+    vB = Element('input_box_vB').element.value
+
+    if vB == "":
+
+        vB = 130
+
+    cA = Element('input_box_cA').element.value
+
+    if cA == "":
+
+        cA = 22
+
+
+    cB = Element('input_box_cB').element.value
+
+    if cB == "":
+
+        cB = 12
+
+    run_model(pr_alphaA,pr_betaA,pr_alphaB,pr_betaB,vA,vB,cA,cB)
+
+
+      </py-button>
+
+      </py-box>
+
+    <center>
+    <br><br><br>
+    <p>Made using <a href="https://pyscript.net">PyScript</a>, <a href="https://pymc.io">PyMC</a>, <a href="https://https://arviz-devs.github.io/arviz/index.html">Arviz</a>, <a href="https://docs.bokeh.org/en/latest/index.html">Bokeh</a>, <a href="https://scipy.org/">SciPy</a>.</p>
+    <br>
+    If you want to use a vague prior, leave the parameters of the <a href="https://en.wikipedia.org/wiki/Beta_distribution"><b>Beta Distributions</b></a> for the design A and B to their default values, i.e. (1,1) for both.
+    <br>
+    Otherwise, tune the parameters in such a way to represent your prior belief on designs A and B.
+    <br>
+    Sampling will take a couple of seconds.
+    <br>
+    The resulting posterior belief into what
+    the increase in conversion rate will be will appear below...
+    </center>
+
+    <center>
+    <br>
+    <p id="out-vA">
+    <p id="out-vB">
+    <p id="out-cA">
+    <p id="out-cB">
+    <br>
+    <br>
+    <p id="out-res_10">
+    <p id="out-res_20">
+    <p id="out-res_50">
+    <br>
+    <br>
+    <p id="out-better">
+    <br>
+    </center>
+    <br>
+    <br>
+    <center>
+    <div id="myplot1"></div>
+    <div id="myplot2"></div>
+    </center>
+    <br>
+    <py-script id="main">
+
+
+
+import warnings
+
+warnings.filterwarnings("ignore")
+
+
+
+import json
+
+from js import Bokeh, JSON
+
+from bokeh.embed import json_item
+
+from bokeh.plotting import figure
+
+
+#import arviz as az
+#az.rcParams["plot.backend"] = "bokeh"
+
+
+import os, sys
+import numpy as np
+from scipy import stats
+
+import matplotlib.pyplot as plt
+import matplotlib.tri as tri
+
+
+sys.stderr = open(os.devnull, "w")
+
+
+
+def relative_increase(a,b):
+    assert b!=0, "denominator is 0"
+    return (a-b)/b
+
+
+def run_dummy(vA, vB, cA, cB):
+
+    Element("out-cA").element.innerHTML = cA
+    Element("out-cB").element.innerHTML = cB
+    Element("out-vA").element.innerHTML = vA
+    Element("out-vB").element.innerHTML = vB
+
+
+def run_model(pr_alphaA, pr_betaA, pr_alphaB, pr_betaB, vA, vB, cA, cB):
+
+    visitors_to_A = int(vA)
+    visitors_to_B = int(vB)
+
+    conversions_from_A = int(cA)
+    conversions_from_B = int(cB)
+
+    alpha_priorA = int(pr_alphaA)
+    beta_priorA = int(pr_betaA)
+    alpha_priorB = int(pr_alphaB)
+    beta_priorB = int(pr_betaB)
+
+    samples = 30000
+
+
+    posterior_A = stats.beta(alpha_priorA+conversions_from_A,beta_priorA+visitors_to_A-conversions_from_A)
+    posterior_B = stats.beta(alpha_priorB+conversions_from_B,beta_priorB+visitors_to_B-conversions_from_B)
+
+
+    samples_posterior_A = posterior_A.rvs(samples)
+    samples_posterior_B = posterior_B.rvs(samples)
+    samples_diff = samples_posterior_A - samples_posterior_B
+
+    posterior_rel_increase = np.divide(samples_diff,samples_posterior_B)
+    posterior_better = samples_diff
+
+    res_10 = np.round((posterior_rel_increase>0.1).mean(),3)
+    res_20 = np.round((posterior_rel_increase>0.2).mean(),3)
+    res_50 = np.round((posterior_rel_increase>0.5).mean(),3)
+
+    A_betterthan_B = np.round((posterior_better>0.).mean(),3)
+
+
+    #Element("out-vA").element.innerHTML = vA
+    #Element("out-vB").element.innerHTML = vB
+    #Element("out-cA").element.innerHTML = cA
+    #Element("out-cB").element.innerHTML = cB
+    str_10 = "Probability that a relative increase is more than 10%: "+str(res_10)
+    str_20 = "Probability that a relative increase is more than 20%: "+str(res_20)
+    str_50 = "Probability that a relative increase is more than 50%: "+str(res_50)
+    str_better = "Probability that A is better than B: "+str(A_betterthan_B)
+
+    Element("out-res_10").element.innerHTML = str_10
+    Element("out-res_20").element.innerHTML = str_20
+    Element("out-res_50").element.innerHTML = str_50
+    Element("out-better").element.innerHTML = str_better
+
+
+    #---------------- plotting ---------------#
+    """
+    p = figure(plot_width=400, plot_height=400)
+
+    # add a circle renderer with x and y coordinates, size, color, and alpha
+    p.circle([1, 2, 3, 4, 5], [6, 7, 2, 4, 5], size=15, line_color="navy", fill_color="orange", fill_alpha=0.5)
+
+    #p_json = json.dumps(json_item(p, "myplot1"))
+    #Bokeh.embed.embed_item(JSON.parse(p_json))
+    """
+
+    #--- prior
+    f_pr = plt.figure()
+    ax = plt.subplot(121)
+    f_pr.set_figwidth(5)
+    f_pr.set_figheight(2)
+    x = np.linspace(0, 1, 100)
+    y = stats.beta(alpha_priorA, beta_priorA).pdf(x)
+    plt.plot(x, y,label="prior A")
+    #plt.xlabel('probability')
+    #plt.ylabel('density (prior)')
+    plt.legend(loc="upper right")
+
+    ax = plt.subplot(122)
+    f_pr.set_figwidth(5)
+    f_pr.set_figheight(2)
+    x = np.linspace(0, 1, 100)
+    y = stats.beta(alpha_priorB, beta_priorB).pdf(x)
+    plt.plot(x, y,label="prior B")
+    #plt.xlabel('probability')
+    #plt.ylabel('density (prior)')
+    plt.legend(loc="upper right")
+
+    pyscript.write("myplot1",f_pr)
+
+
+
+    #--- histogram of posteriors
+
+    f_post = plt.figure()
+    ax = plt.subplot(311)
+
+    plt.xlim(0, .5)
+    plt.hist(samples_posterior_A, histtype='stepfilled', bins=25, alpha=0.85,
+             label="posterior of $p_A$", color="#A60628", density=True)
+    #plt.vlines(true_p_A, 0, 80, linestyle="--", label="true $p_A$ (unknown)")
+    plt.legend(loc="upper right")
+    plt.title("Posterior distributions of $p_A$, $p_B$, and delta unknowns")
+
+    ax = plt.subplot(312)
+
+    plt.xlim(0, .5)
+    plt.hist(samples_posterior_B, histtype='stepfilled', bins=25, alpha=0.85,
+             label="posterior of $p_B$", color="#467821", density=True)
+    #plt.vlines(true_p_B, 0, 80, linestyle="--", label="true $p_B$ (unknown)")
+    plt.legend(loc="upper right")
+
+    ax = plt.subplot(313)
+    plt.hist(samples_diff, histtype='stepfilled', bins=30, alpha=0.85,
+             label="posterior of delta", color="#7A68A6", density=True)
+    #plt.vlines(true_p_A - true_p_B, 0, 60, linestyle="--",
+    #           label="true delta (unknown)")
+    plt.vlines(0, 0, 60, color="black", alpha=0.2)
+    plt.legend(loc="upper right")
+
+    pyscript.write("myplot2",f_post)
+
+
+
+
+
+
+pr_alphaA = Element('input_box_alphaA').element.value
+pr_betaA = Element('input_box_betaA').element.value
+
+vA = Element('input_box_vA').element.value
+vB = Element('input_box_vB').element.value
+cA = Element('input_box_cA').element.value
+cB = Element('input_box_cB').element.value
+
+
+
+
+
+
+    </py-script>
+
+    <script>
+
+        window.addEventListener('load', function() {
+
+            let input_box_alphaA = document.querySelector("#input_box_alphaA")
+
+            input_box_alphaA.value = "1"
+
+            let input_box_betaA = document.querySelector("#input_box_betaA")
+
+            input_box_betaA.value = "1"
+
+            let input_box_alphaB = document.querySelector("#input_box_alphaB")
+
+            input_box_alphaB.value = "1"
+
+            let input_box_betaB = document.querySelector("#input_box_betaB")
+
+            input_box_betaB.value = "1"
+
+            let input_box_vA = document.querySelector("#input_box_vA")
+
+            input_box_vA.value = "40"
+
+            let input_box_vB = document.querySelector("#input_box_vB")
+
+            input_box_vB.value = "120"
+
+            let input_box_cA = document.querySelector("#input_box_cA")
+
+            input_box_cA.value = "10"
+
+            let input_box_cB = document.querySelector("#input_box_cB")
+
+            input_box_cB.value = "20"
+
+        })
+
+    </script>
+
+
+
+
+    </body>
+
+</html>
