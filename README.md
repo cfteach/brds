@@ -2,4 +2,4 @@
 
 GitHub Pages site of the course:
 
-[cfteach.github.io/brds](cfteach.github.io/brds)
+[cfteach.github.io/brds](https://cfteach.github.io/brds)
