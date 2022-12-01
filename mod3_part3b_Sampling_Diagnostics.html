@@ -1,0 +1,1318 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Logistic Regression &#8212; Bayesian Reasoning in Data Science</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="_static/wm_vertical_single_line_full_color.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="References" href="referencesmd.html" />
+    <link rel="prev" title="MCMC Applications: Denoising Images" href="mod3_part3_extra_MCMC_denoise.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/wm_vertical_single_line_full_color.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Bayesian Reasoning in Data Science</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Bayesian Reasoning in Data Science
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Lectures
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1uXlxQoqseWwwurtU-HSbqEz6EvE-r4ZSPorJU8kmFgw/edit?usp=sharing">
+   mod1 - Course Structure; Real-world Bayesian applications; Causes and effects; True and Measured - Lecture 1 (9/1/2022)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/15rH1oqwgWOUzuWpCG2zTlYv70yoSK4-p96OxwmV6hy0/edit?usp=sharing">
+   mod1 - Bayes Theorem; Exercises; Thinking Probabilistically - Lecture 2 (9/6/2022)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1jqEu81sj2FgseCwhEHqaEnV3Fu4E3reJSgauZvthypQ/edit?usp=sharing">
+   mod1 - Credible Intervals; ROPE; HDI - Lecture 6 and 7 (9/20 and 22/2022)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1UyWJaK4Sdhf1GFufaV5KIb9VMqYalV-U_OenMjr0oo0/edit?usp=sharing">
+   mod2 - Bayesian Linear Regression - Lecture 10 and 11 (10/04 and 10/05)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod1_part1_thinking_probabilistically.html">
+   (mod1 - part1) Thinking Probabilistically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod1_part2_intro_probabilistic_programming.html">
+   (mod1 - part2) Intro to Probabilistic Programming
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod1_part3_gaussian_inferences.html">
+   (mod1 - part3) Gaussian Inferences - t-Student
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod2_part1_Bayesian_Linear_Regression.html">
+   (mod2 - part1) Bayesian Linear Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod2_part2_Bayesian_Polynomial_Regression.html">
+   (mod2 - part2) Bayesian Polynomial Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod2_part2b_Bayesian_Logistic_Regression.html">
+   (mod2 - part2b) Bayesian Logistic Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod2_part3_Bayesian_Logistic_Regression.html">
+   (mod2 - part3) Bayesian Softmax Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod3_part1_Gaussian_Processes.html">
+   (mod3 - part1) Intro to Gaussian Processes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod3_part1b_Bayesian_Optimization.html">
+   (mod3 - part1b) Bayesian Optimization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod3_part2_BayesianAB_testing.html">
+   (mod3 - part2) Bayesian A/B Testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod3_part3_MCMC.html">
+   (mod3 - part3) Markov Chain Monte Carlo (MCMC)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod3_part3_extra_MCMC_denoise.html">
+   (mod3 - part3 extra) MCMC Applications, Denoising Images (in progress)
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   (mod3 - part3b) MCMC Diagnostics
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Assignments
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1LWkXkh2VQtbyXAA9RSNg_0ecelmK_FW76ur19XLsAI4/edit?usp=sharing">
+   Assignments of module 3 (part1, part2, part3)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Mini-Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/pyscr/">
+   Mini-project (pyscript + PyMC)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/brds/bayesian_A_B_testing_mini_project.html">
+   Bayesian A/B testing (pyscript) by R. Gupta, BRDS class 2022
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Additional resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="referencesmd.html">
+   References
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/cfteach/brds/main?urlpath=tree/notebooks/mod3_part3b_Sampling_Diagnostics.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="http://jupyterhub.jlab.org/hub/user-redirect/git-pull?repo=https%3A//github.com/cfteach/brds&urlpath=tree/brds/notebooks/mod3_part3b_Sampling_Diagnostics.ipynb&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/cfteach/brds/blob/main/notebooks/mod3_part3b_Sampling_Diagnostics.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/cfteach/brds"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/cfteach/brds/issues/new?title=Issue%20on%20page%20%2Fmod3_part3b_Sampling_Diagnostics.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/mod3_part3b_Sampling_Diagnostics.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-iris-dataset">
+   The Iris Dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multiple-logistic-regression">
+   Multiple logistic regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#diagnostics-of-mcmc">
+   Diagnostics of MCMC
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#autocorrelation">
+   Autocorrelation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Logistic Regression</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-iris-dataset">
+   The Iris Dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multiple-logistic-regression">
+   Multiple logistic regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#diagnostics-of-mcmc">
+   Diagnostics of MCMC
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#autocorrelation">
+   Autocorrelation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="logistic-regression">
+<h1>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">#</a></h1>
+<p>Ref: Chap 4 of Mar18</p>
+<p><a class="reference external" href="https://cfteach.github.io/brds/referencesmd.html">https://cfteach.github.io/brds/referencesmd.html</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install pymc3 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/
+Collecting pymc3
+  Downloading pymc3-3.11.5-py3-none-any.whl (872 kB)
+     |████████████████████████████████| 872 kB 19.1 MB/s 
+?25hRequirement already satisfied: cachetools&gt;=4.2.1 in /usr/local/lib/python3.8/dist-packages (from pymc3) (5.2.0)
+Requirement already satisfied: numpy&lt;1.22.2,&gt;=1.15.0 in /usr/local/lib/python3.8/dist-packages (from pymc3) (1.21.6)
+Requirement already satisfied: arviz&gt;=0.11.0 in /usr/local/lib/python3.8/dist-packages (from pymc3) (0.12.1)
+Collecting theano-pymc==1.1.2
+  Downloading Theano-PyMC-1.1.2.tar.gz (1.8 MB)
+     |████████████████████████████████| 1.8 MB 81.8 MB/s 
+?25hRequirement already satisfied: pandas&gt;=0.24.0 in /usr/local/lib/python3.8/dist-packages (from pymc3) (1.3.5)
+Requirement already satisfied: patsy&gt;=0.5.1 in /usr/local/lib/python3.8/dist-packages (from pymc3) (0.5.3)
+Requirement already satisfied: typing-extensions&gt;=3.7.4 in /usr/local/lib/python3.8/dist-packages (from pymc3) (4.1.1)
+Requirement already satisfied: dill in /usr/local/lib/python3.8/dist-packages (from pymc3) (0.3.6)
+Requirement already satisfied: scipy&lt;1.8.0,&gt;=1.7.3 in /usr/local/lib/python3.8/dist-packages (from pymc3) (1.7.3)
+Requirement already satisfied: fastprogress&gt;=0.2.0 in /usr/local/lib/python3.8/dist-packages (from pymc3) (1.0.3)
+Collecting semver&gt;=2.13.0
+  Downloading semver-2.13.0-py2.py3-none-any.whl (12 kB)
+Collecting deprecat
+  Downloading deprecat-2.1.1-py2.py3-none-any.whl (9.8 kB)
+Requirement already satisfied: filelock in /usr/local/lib/python3.8/dist-packages (from theano-pymc==1.1.2-&gt;pymc3) (3.8.0)
+Requirement already satisfied: packaging in /usr/local/lib/python3.8/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (21.3)
+Requirement already satisfied: xarray&gt;=0.16.1 in /usr/local/lib/python3.8/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (0.20.2)
+Requirement already satisfied: setuptools&gt;=38.4 in /usr/local/lib/python3.8/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (57.4.0)
+Requirement already satisfied: matplotlib&gt;=3.0 in /usr/local/lib/python3.8/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (3.2.2)
+Requirement already satisfied: xarray-einstats&gt;=0.2 in /usr/local/lib/python3.8/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (0.2.2)
+Requirement already satisfied: netcdf4 in /usr/local/lib/python3.8/dist-packages (from arviz&gt;=0.11.0-&gt;pymc3) (1.6.2)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.8/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (3.0.9)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.8/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (1.4.4)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.8/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (0.11.0)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.8/dist-packages (from matplotlib&gt;=3.0-&gt;arviz&gt;=0.11.0-&gt;pymc3) (2.8.2)
+Requirement already satisfied: pytz&gt;=2017.3 in /usr/local/lib/python3.8/dist-packages (from pandas&gt;=0.24.0-&gt;pymc3) (2022.6)
+Requirement already satisfied: six in /usr/local/lib/python3.8/dist-packages (from patsy&gt;=0.5.1-&gt;pymc3) (1.15.0)
+Requirement already satisfied: wrapt&lt;2,&gt;=1.10 in /usr/local/lib/python3.8/dist-packages (from deprecat-&gt;pymc3) (1.14.1)
+Requirement already satisfied: cftime in /usr/local/lib/python3.8/dist-packages (from netcdf4-&gt;arviz&gt;=0.11.0-&gt;pymc3) (1.6.2)
+Building wheels for collected packages: theano-pymc
+  Building wheel for theano-pymc (setup.py) ... ?25l?25hdone
+  Created wheel for theano-pymc: filename=Theano_PyMC-1.1.2-py3-none-any.whl size=1529963 sha256=f347f18ecf926b37515c2d31ec00e6049019f2096ed82587e7747515ef4ee071
+  Stored in directory: /root/.cache/pip/wheels/0e/41/d2/82c7b771236f987def7fe2e51855cce22b270327f3fedec57c
+Successfully built theano-pymc
+Installing collected packages: theano-pymc, semver, deprecat, pymc3
+Successfully installed deprecat-2.1.1 pymc3-3.11.5 semver-2.13.0 theano-pymc-1.1.2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">tt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">expit</span> <span class="k">as</span> <span class="n">logistic</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">io</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;arviz-darkgrid&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="the-iris-dataset">
+<h2>The Iris Dataset<a class="headerlink" href="#the-iris-dataset" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_url</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/cfteach/brds/main/datasets/iris.csv&#39;</span> 
+
+<span class="n">download</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target_url</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">download</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)))</span>
+
+<span class="n">iris</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="n">iris</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0         setosa
+1         setosa
+2         setosa
+3         setosa
+4         setosa
+         ...    
+145    virginica
+146    virginica
+147    virginica
+148    virginica
+149    virginica
+Name: species, Length: 150, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#using stripplot function from seaborn </span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;sepal_length&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span> <span class="n">jitter</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f084c8a15b0&gt;
+</pre></div>
+</div>
+<img alt="_images/mod3_part3b_Sampling_Diagnostics_7_1.png" src="_images/mod3_part3b_Sampling_Diagnostics_7_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">iris</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="n">diag_kind</span><span class="o">=</span><span class="s1">&#39;kde&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.8/dist-packages/seaborn/axisgrid.py:88: UserWarning: This figure was using constrained_layout==True, but that is incompatible with subplots_adjust and or tight_layout: setting constrained_layout==False. 
+  self._figure.tight_layout(*args, **kwargs)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x7f083ee7db80&gt;
+</pre></div>
+</div>
+<img alt="_images/mod3_part3b_Sampling_Diagnostics_8_2.png" src="_images/mod3_part3b_Sampling_Diagnostics_8_2.png" />
+</div>
+</div>
+</section>
+<section id="multiple-logistic-regression">
+<h2>Multiple logistic regression<a class="headerlink" href="#multiple-logistic-regression" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;species == (&#39;setosa&#39;, &#39;versicolor&#39;)&quot;</span><span class="p">)</span> 
+<span class="n">y_1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">codes</span> 
+<span class="n">x_n</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_width&#39;</span><span class="p">]</span> 
+<span class="n">x_1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">x_n</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x_1</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">x_1</span><span class="p">))</span>
+<span class="n">t_l</span> <span class="o">=</span> <span class="n">x_1</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">t_l</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">t_l</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(100, 2) &lt;class &#39;numpy.ndarray&#39;&gt;
+(100, 2) &lt;class &#39;list&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_1</span><span class="p">:</span> 
+    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;α&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> 
+    <span class="n">β</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;β&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">x_n</span><span class="p">))</span> 
+
+    <span class="n">x__1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">x_1</span><span class="p">)</span>
+    <span class="n">y__1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">y_1</span><span class="p">)</span>
+     
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">α</span> <span class="o">+</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x__1</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
+    
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">μ</span><span class="p">)))</span> 
+    <span class="n">bd</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;bd&#39;</span><span class="p">,</span> <span class="o">-</span><span class="n">α</span><span class="o">/</span><span class="n">β</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">β</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">β</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x__1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+     
+    <span class="n">yl</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;yl&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">θ</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y__1</span><span class="p">)</span> 
+ 
+    <span class="n">trace_1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:theano.tensor.blas:We did not find a dynamic library in the library_dir of the library we use for blas. If you use ATLAS, make sure to compile it with dynamics library.
+WARNING:theano.tensor.blas:We did not find a dynamic library in the library_dir of the library we use for blas. If you use ATLAS, make sure to compile it with dynamics library.
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='6000' class='' max='6000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [6000/6000 00:26&lt;00:00 Sampling chain 0, 0 divergences]
+</div>
+</div><div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='6000' class='' max='6000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [6000/6000 00:22&lt;00:00 Sampling chain 1, 0 divergences]
+</div>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">x_1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span> 
+
+
+<span class="n">bd_mean</span> <span class="o">=</span> <span class="n">trace_1</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s1">&#39;bd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_1</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y_0</span><span class="p">])</span> 
+
+<span class="n">bd</span> <span class="o">=</span> <span class="n">bd_mean</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">][</span><span class="n">idx</span><span class="p">],</span> <span class="n">bd</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">);</span> 
+
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x_1</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">trace_1</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s1">&#39;bd&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+ 
+    
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">x_n</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">x_n</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;sepal_width&#39;)
+</pre></div>
+</div>
+<img alt="_images/mod3_part3b_Sampling_Diagnostics_13_1.png" src="_images/mod3_part3b_Sampling_Diagnostics_13_1.png" />
+</div>
+</div>
+</section>
+<section id="diagnostics-of-mcmc">
+<h2>Diagnostics of MCMC<a class="headerlink" href="#diagnostics-of-mcmc" title="Permalink to this headline">#</a></h2>
+<p>We now understand that the sampling is done with Markov Chain Monte Carlo techniques.</p>
+<p>Let’s check the quality of our results by doing some diagnostics.</p>
+<p>Good results are produced by a <strong>“Good Mixing”</strong> in our chain.</p>
+<p>Viceversa, if we observe divergences or patterns that deviate from randomic behaviour (yes, we ideally like “white noise” in our chains), we will say that we had a <strong>“Bad Mixing”</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_1</span><span class="p">,</span> <span class="n">varnames</span><span class="p">,</span> <span class="n">divergences</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f08396949a0&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f0839684a90&gt;],
+       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f0839d0cbe0&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f083980a460&gt;]],
+      dtype=object)
+</pre></div>
+</div>
+<img alt="_images/mod3_part3b_Sampling_Diagnostics_16_1.png" src="_images/mod3_part3b_Sampling_Diagnostics_16_1.png" />
+</div>
+</div>
+<blockquote>
+<div><p>check1: If divergences are present, they will be higlihted with bars on top of the plots, so to make them easy to identify</p>
+</div></blockquote>
+<blockquote>
+<div><p>check2: You want to check that the 2 (or more, if multiple CPUs were available) chains produce distributions that overlaps; different behavior would mean instead not</p>
+</div></blockquote>
+<blockquote>
+<div><p>check3: are there patterns in our chains or do they look random? Remember: random is good. Patterns may emerge for example when the distribution we are sampling are multimodal, and we get stuck for a while in one of the peaks. A good mixing chain, even in case of a multimodal distribution, would reflect in a random chain where patterns are not identifiable.</p>
+</div></blockquote>
+</section>
+<section id="autocorrelation">
+<h2>Autocorrelation<a class="headerlink" href="#autocorrelation" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_autocorr</span><span class="p">(</span><span class="n">trace_1</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">varnames</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f083f04d160&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f08420e9f40&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f083aa4c250&gt;],
+       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f083f61e9d0&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f08446b8370&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f083f627a30&gt;]],
+      dtype=object)
+</pre></div>
+</div>
+<img alt="_images/mod3_part3b_Sampling_Diagnostics_19_1.png" src="_images/mod3_part3b_Sampling_Diagnostics_19_1.png" />
+</div>
+</div>
+<blockquote>
+<div><p>Notice that ideally, we do not want to see autocorrelation. In practice, we want samples that quickly drop to low values of autocorrelation.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-766c3738-117f-408c-8056-9202fc89ee65">
+    <div class="colab-df-container">
+      <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>α</th>
+      <td>-9.070</td>
+      <td>4.827</td>
+      <td>-18.544</td>
+      <td>-0.444</td>
+      <td>0.136</td>
+      <td>0.104</td>
+      <td>1286.0</td>
+      <td>1170.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>β[0]</th>
+      <td>4.653</td>
+      <td>0.914</td>
+      <td>3.011</td>
+      <td>6.435</td>
+      <td>0.024</td>
+      <td>0.017</td>
+      <td>1421.0</td>
+      <td>1249.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>β[1]</th>
+      <td>-5.184</td>
+      <td>1.033</td>
+      <td>-7.081</td>
+      <td>-3.231</td>
+      <td>0.027</td>
+      <td>0.019</td>
+      <td>1492.0</td>
+      <td>1311.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>θ[0]</th>
+      <td>0.037</td>
+      <td>0.024</td>
+      <td>0.003</td>
+      <td>0.080</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>2087.0</td>
+      <td>2183.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>θ[1]</th>
+      <td>0.152</td>
+      <td>0.070</td>
+      <td>0.039</td>
+      <td>0.284</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>2451.0</td>
+      <td>2470.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>bd[95]</th>
+      <td>3.375</td>
+      <td>0.122</td>
+      <td>3.159</td>
+      <td>3.614</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>2078.0</td>
+      <td>2270.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>bd[96]</th>
+      <td>3.375</td>
+      <td>0.122</td>
+      <td>3.159</td>
+      <td>3.614</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>2078.0</td>
+      <td>2270.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>bd[97]</th>
+      <td>3.837</td>
+      <td>0.212</td>
+      <td>3.471</td>
+      <td>4.256</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>1381.0</td>
+      <td>1475.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>bd[98]</th>
+      <td>2.822</td>
+      <td>0.100</td>
+      <td>2.635</td>
+      <td>3.008</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>2851.0</td>
+      <td>2666.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>bd[99]</th>
+      <td>3.375</td>
+      <td>0.122</td>
+      <td>3.159</td>
+      <td>3.614</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>2078.0</td>
+      <td>2270.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>203 rows × 9 columns</p>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-766c3738-117f-408c-8056-9202fc89ee65')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-766c3738-117f-408c-8056-9202fc89ee65 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-766c3738-117f-408c-8056-9202fc89ee65');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+</div></div>
+</div>
+<ul class="simple">
+<li><p><strong>ess=Effective Sample Size</strong>  a sample with autocorrelation has less information than a sample of the same size without autocorrelation; autocorrelation has the detrimental effect of reducing the number of effective samples (you can observe this at the bulk or tail of the chain)</p></li>
+</ul>
+<blockquote>
+<div><p>Recipe: the effective sample size should be close to the actual sample size</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>mcse=Monte Carlo Standard Error</strong> [1] When using MCMC methods we introduce an additional layer of uncertainty as we are approximating the posterior with a finite number of samples. We can estimate the amount of error introduced using the Monte Carlo standard error (MCSE), which is based on Markov chain central limit theorem. In other words, this is an estimation of the error introduced by the sampling method. The standard error of the mean x of n blocks (where each block is just a portion of the trace) is:</p></li>
+</ul>
+<center>
+$mc_{error} = \frac{\sigma(x)}{\sqrt{n}}$
+</center>
+<blockquote>
+<div><p>This error should be below the precision we want in our results. We should check the MCSE after the ESS. And you need to know what is the required precision. Otherwise is of no use.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>r_hat</strong> The idea of this test is to compute the variance between chains with the variance within chains. Ideally, we should expect a value of 1.</p></li>
+</ul>
+<blockquote>
+<div><p>Recipe: if it is below 1.1 is OK</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">varnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;α&#39;</span><span class="p">,</span><span class="s1">&#39;β&#39;</span><span class="p">]</span> 
+<span class="c1"># ess: Effective Sample Size</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">trace_1</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="n">varnames</span><span class="p">,</span> <span class="n">ess</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/mod3_part3b_Sampling_Diagnostics_23_0.png" src="_images/mod3_part3b_Sampling_Diagnostics_23_0.png" />
+</div>
+</div>
+<blockquote>
+<div><p>Recipe (forest plot): there is evidence of good mixing if the two (depending on how many CPUs were available) chains produce similar results.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">trace_1</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;α&#39;</span><span class="p">,</span><span class="s1">&#39;β&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f08420bff10&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f08470a0a60&gt;],
+       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f0839d3ed90&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f0839f7a490&gt;]],
+      dtype=object)
+</pre></div>
+</div>
+<img alt="_images/mod3_part3b_Sampling_Diagnostics_25_1.png" src="_images/mod3_part3b_Sampling_Diagnostics_25_1.png" />
+</div>
+</div>
+<blockquote>
+<div><p>If divergences are preesent, they are shown as black/orange points</p>
+</div></blockquote>
+<blockquote>
+<div><p>To cure/get rid of divergences, a recipe could be:</p>
+</div></blockquote>
+<ol class="simple">
+<li><p>Increase the number of tuning step <strong>pm.sample(tuning=1000)</strong></p></li>
+<li><p>Increase the value of <strong>target_accept</strong>; this parameter, whose default value is 0.8, can be changed to 0.85 or 0.90. Intuitively, this is related to the acceptance in our sampling. Changing this parameter under the hood implies tuning another parameter called <strong>step_size</strong>, which is the number of steps per sample in the NUTS sampling. NUTS is a No-U-Turn Sampler, an MCMC algorithm that resemble Hamiltonian Monte Carlo techniques, it has a larger acceptance rate and works with continuous distribution. If you want to read more, see [2]. The trade-off is that each step is more likely to be accepted but more compute intensive.</p></li>
+</ol>
+<blockquote>
+<div><p>N.B. PyMC combines NUTS + METROPOLIS for sampling: NUTS is used for continuous parameters, METROPOLIS for discrete</p>
+</div></blockquote>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<p>[1] Martin Osvaldo A, Kumar Ravin; Lao Junpeng” <em>Bayesian Modeling and Computation in Python Boca Ratón</em>, 2021. ISBN 978-0-367-89436-8, <a class="reference external" href="https://bayesiancomputationbook.com/">https://bayesiancomputationbook.com/</a></p>
+<p>[2] Martin Osvaldo: Bayesian Analysis with Python: Introduction to statistical modeling and probabilistic programming using PyMC3 and ArviZ. Packt Publishing Ltd, 2018. URL: <a class="reference external" href="https://github.com/PacktPublishing/Bayesian-Analysis-with-Python-Second-Edition">https://github.com/PacktPublishing/Bayesian-Analysis-with-Python-Second-Edition</a>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "cfteach/brds",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "jupynb_env_new"
+        },
+        kernelOptions: {
+            kernelName: "jupynb_env_new",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'jupynb_env_new'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="mod3_part3_extra_MCMC_denoise.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">MCMC Applications: Denoising Images</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="referencesmd.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">References</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Cristiano Fanelli<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
