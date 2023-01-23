@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="_static/wm_vertical_single_line_full_color.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="References" href="referencesmd.html" />
+    <link rel="next" title="Bayesian A/B Testing" href="mod3_part2_BayesianAB_testing.html" />
     <link rel="prev" title="Covariance and Kernel" href="mod3_part1_Gaussian_Processes.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -116,7 +116,7 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Lectures (Integrate these notes with Notebooks below)
+  Lectures
  </span>
 </p>
 <ul class="nav bd-sidenav">
@@ -192,6 +192,26 @@ const thebe_selector_output = ".output, .cell_output"
    (mod3 - part1b) Bayesian Optimization
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod3_part2_BayesianAB_testing.html">
+   (mod3 - part2) Bayesian A/B Testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod3_part3_MCMC.html">
+   (mod3 - part3) Markov Chain Monte Carlo (MCMC)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod3_part3_extra_MCMC_denoise.html">
+   (mod3 - part3 extra) MCMC Applications, De-noising Image
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mod3_part3b_Sampling_Diagnostics.html">
+   (mod3 - part3b) MCMC Diagnostics
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -201,7 +221,24 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference external" href="https://docs.google.com/presentation/d/1LWkXkh2VQtbyXAA9RSNg_0ecelmK_FW76ur19XLsAI4/edit?usp=sharing">
-   Assignments of module 3 (part1, ...)
+   Assignments of module 3 (part1, part2, part3)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Mini-Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/pyscr/">
+   Mini-project (pyscript + PyMC)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/brds/bayesian_A_B_testing_mini_project.html">
+   Bayesian A/B testing (pyscript) by R. Gupta, BRDS class 2022
   </a>
  </li>
 </ul>
@@ -214,11 +251,6 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="referencesmd.html">
    References
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference external" href="https://cfteach.github.io/pyscr/">
-   Mini-project (pyscript + PyMC)
   </a>
  </li>
 </ul>
@@ -298,7 +330,7 @@ title="Launch on Binder"
       </li>
       
       <li>
-        <a href="http://jupyterhub.jlab.org/hub/user-redirect/git-pull?repo=https%3A//github.com/cfteach/brds&urlpath=tree/brds/notebooks/mod3_part1b_Bayesian_Optimization.ipynb&branch=main"
+        <a href="http://jupyterhub.wm.edu/hub/user-redirect/git-pull?repo=https%3A//github.com/cfteach/brds&urlpath=tree/brds/notebooks/mod3_part1b_Bayesian_Optimization.ipynb&branch=main"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -570,7 +602,7 @@ title="Print to PDF"
 
 <span class="n">gp_res</span> <span class="o">=</span> <span class="n">gp_minimize</span><span class="p">(</span><span class="n">f</span><span class="p">,</span>                  <span class="c1"># the function to minimize</span>
                   <span class="p">[(</span><span class="o">-</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">),(</span><span class="o">-</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">)],</span>      <span class="c1"># the bounds on each dimension of x</span>
-                  <span class="n">acq_func</span><span class="o">=</span><span class="s2">&quot;EI&quot;</span><span class="p">,</span>      <span class="c1"># the acquisition function</span>
+                  <span class="n">acq_func</span><span class="o">=</span><span class="s2">&quot;gp_hedge&quot;</span><span class="p">,</span>      <span class="c1"># the acquisition function</span>
                   <span class="n">n_calls</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>         <span class="c1"># the number of evaluations of f</span>
                   <span class="n">n_random_starts</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="c1"># the number of random initialization points</span>
                   <span class="n">noise</span><span class="o">=</span><span class="mf">0.</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>       <span class="c1"># the noise level (optional)</span>
@@ -590,7 +622,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3.3632775652990032, 0.6170479784432716] 0.07563173048209833
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3.0094914834218818, 0.5030984761359134] 2.7571671564361196e-05
 </pre></div>
 </div>
 </div>
@@ -719,10 +751,10 @@ title="Print to PDF"
             <p class="prev-next-title">Covariance and Kernel</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="referencesmd.html" title="next page">
+    <a class='right-next' id="next-link" href="mod3_part2_BayesianAB_testing.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">References</p>
+        <p class="prev-next-title">Bayesian A/B Testing</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
